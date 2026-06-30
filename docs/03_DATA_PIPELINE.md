@@ -11,3 +11,10 @@ The data pipeline consumes raw transaction CSVs and transforms them into an AI-r
 - Velocity features (transactions per time window).
 - Statistical aggregations (mean, max, std dev).
 - Top 600 features selected based on initial LightGBM feature importance rankings.
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](02_SYSTEM_ARCHITECTURE.md) | [Next ➡️](04_AI_PIPELINE.md)

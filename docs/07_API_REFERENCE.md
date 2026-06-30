@@ -43,3 +43,10 @@ Returns the 1-hop neighborhood of a specific entity.
 
 ### `GET /api/v1/graph/network/{case_id}`
 Returns the 2-hop subgraph (nodes and edges) surrounding a transaction case, formatted for rendering in React Flow or Cytoscape.js.
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](06_MLOPS_PIPELINE.md) | [Next ➡️](08_FRONTEND_INTEGRATION.md)

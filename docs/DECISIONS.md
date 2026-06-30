@@ -43,3 +43,10 @@ This document records the major architectural decisions made during the developm
 **Context**: Phase 6 Evidence Engine.
 **Decision**: SHAP was chosen over LIME for tabular explainability.
 **Reasoning**: SHAP provides consistent, mathematically grounded global and local explanations based on cooperative game theory, whereas LIME can be unstable and locally linear, making it legally riskier for explaining financial denials.
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](10_EXPERIMENTS.md)

@@ -8,4 +8,11 @@
 4. **Graph Learning Engine (GLE)**: Infuses transactional topology (Graph features, Embeddings) to boost tabular model performance.
 5. **MLOps Engine**: Monitors the health, drift, and degradation of models in production.
 
-*(See `architecture/SYSTEM_ARCHITECTURE.png` for a visual diagram)*
+*(See [System Architecture Diagram](architecture/SYSTEM_ARCHITECTURE.png) for a visual diagram)*
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](01_PROJECT_OVERVIEW.md) | [Next ➡️](03_DATA_PIPELINE.md)
