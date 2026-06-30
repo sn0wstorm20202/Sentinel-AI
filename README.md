@@ -40,6 +40,41 @@ Packaging the backend with FastAPI and Docker. Developing the React/Vite Investi
 
 ---
 
+## 🚀 Quick Start & Initialization
+
+To initialize the project, run the tests, and start the API server locally, follow these steps:
+
+### 1. Environment Setup
+Create a virtual environment and install the required dependencies:
+```bash
+# Create a virtual environment
+python -m venv .venv
+
+# Activate it (Windows)
+.venv\Scripts\activate
+# Activate it (Mac/Linux)
+source .venv/bin/activate
+
+# Install requirements
+pip install -r requirements.txt
+```
+
+### 2. Run the RC-2 Master Validation Suite
+To guarantee that the backend is functioning properly, run the overarching test script. This will systematically test the entire pipeline from package integrity to the E2E simulation.
+```bash
+python run_rc2_validation.py
+```
+*If everything is configured correctly, this will finish with a `9/9 stages passed` success message.*
+
+### 3. Start the Sentinel API
+Launch the FastAPI development server:
+```bash
+uvicorn src.api.InvestigatorAPI:app --reload
+```
+You can now navigate to **[http://localhost:8000/docs](http://localhost:8000/docs)** to view the interactive Swagger API documentation and submit test requests.
+
+---
+
 ## Documentation
 Please refer to the `docs/` directory for detailed architectural blueprints and API contracts:
 - [Project Overview](docs/01_PROJECT_OVERVIEW.md)
