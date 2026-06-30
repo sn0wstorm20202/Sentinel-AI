@@ -50,9 +50,23 @@
     },
     "validation_status": "PASS",
     "deployment_ready": "YES",
-    "status": "Champion",
+    "status": "Archived",
     "notes": "",
     "model_id": "MockSAGE_20260630224642",
     "registration_date": "2026-06-30T22:46:42Z"
+  },
+  {
+    "model_name": "MockSAGE",
+    "experiment_id": "exp_123",
+    "dataset_hash": "1234",
+    "metrics": {
+      "PR-AUC": 0.95
+    },
+    "validation_status": "PASS",
+    "deployment_ready": "YES",
+    "status": "Champion",
+    "notes": "",
+    "model_id": "MockSAGE_20260630224737",
+    "registration_date": "2026-06-30T22:47:37Z"
   }
 ]
