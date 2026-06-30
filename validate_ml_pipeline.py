@@ -97,10 +97,39 @@ def run_ml_validation():
         # 6. Calibration Curve Unchanged
         prob_true, prob_pred = calibration_curve(y_test, y_prob, n_bins=10)
         if len(prob_true) > 0 and len(prob_pred) > 0:
-            results.append(("Calibration Curve", "PASS", "Calibration curve successfully reproduced"))
+            from sklearn.metrics import brier_score_loss
+            brier = brier_score_loss(y_test, y_prob)
+            
+            df_cal = pd.DataFrame({"y_true": y_test, "y_prob": y_prob})
+            df_cal["bin"] = pd.cut(df_cal["y_prob"], bins=10, labels=False, include_lowest=True)
+            cal_stats = df_cal.groupby("bin").agg(
+                y_true_mean=("y_true", "mean"),
+                y_prob_mean=("y_prob", "mean"),
+                count=("y_true", "count")
+            ).dropna()
+            
+            ece = np.sum(np.abs(cal_stats["y_true_mean"] - cal_stats["y_prob_mean"]) * (cal_stats["count"] / len(y_test)))
+            mce = np.max(np.abs(cal_stats["y_true_mean"] - cal_stats["y_prob_mean"]))
+            
+            cal_msg = f"Reproduced. Brier: {brier:.4f}, ECE: {ece:.4f}, MCE: {mce:.4f}"
+            results.append(("Calibration Metrics", "PASS", cal_msg))
         else:
-            results.append(("Calibration Curve", "FAIL", "Calibration curve generation failed"))
+            results.append(("Calibration Metrics", "FAIL", "Calibration curve generation failed"))
             failures += 1
+            
+        # 6.5 Inference Time Profiling
+        import time
+        times = []
+        batch = X_test.iloc[:100]
+        model.predict_proba(batch) # warmup
+        for _ in range(100):
+            start = time.perf_counter()
+            model.predict_proba(batch)
+            times.append((time.perf_counter() - start) * 1000)
+            
+        times = np.array(times)
+        inf_msg = f"Batch Size: 100 | Mean: {np.mean(times):.2f}ms | Median: {np.median(times):.2f}ms | P95: {np.percentile(times, 95):.2f}ms | P99: {np.percentile(times, 99):.2f}ms"
+        results.append(("Inference Time Profile", "PASS", inf_msg))
             
         # 7. SHAP values reproducible
         print("Testing SHAP reproducibility...")
