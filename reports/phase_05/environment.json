@@ -1,0 +1,11 @@
+{
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "sklearn": "1.9.0",
+    "xgboost": "3.3.0",
+    "lightgbm": "4.6.0",
+    "catboost": "1.2.10",
+    "shap": "0.52.0",
+    "imblearn": "0.14.2",
+    "optuna": "4.9.0",
+    "random_seed": 42
+}

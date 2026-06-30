@@ -1,0 +1,65 @@
+[
+    {
+        "Feature": "Account_Tenure_Bucket",
+        "Source": "Account_Age_Days",
+        "Type": "Temporal",
+        "Business Meaning": "Discretizes account age to capture behavioral lifecycle (New vs. Established).",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1863_is_missing",
+        "Source": "F1863",
+        "Type": "Missing Indicator",
+        "Business Meaning": "Missingness flag for F1863. Preserves missingness behavior as a distinct feature.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "Retail_Flag",
+        "Source": "F3893",
+        "Type": "Business",
+        "Business Meaning": "Explicit flag for Retail customers who have distinct transaction velocities compared to corporate.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1863_Log1p",
+        "Source": "F1863",
+        "Type": "Numerical",
+        "Business Meaning": "Selectively log-transformed F1863 to compress extreme outliers while preserving -999 markers.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1489_Log1p",
+        "Source": "F1489",
+        "Type": "Numerical",
+        "Business Meaning": "Selectively log-transformed F1489 to compress extreme outliers while preserving -999 markers.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1501_Log1p",
+        "Source": "F1501",
+        "Type": "Numerical",
+        "Business Meaning": "Selectively log-transformed F1501 to compress extreme outliers while preserving -999 markers.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1381_Log1p",
+        "Source": "F1381",
+        "Type": "Numerical",
+        "Business Meaning": "Selectively log-transformed F1381 to compress extreme outliers while preserving -999 markers.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "F1827_Log1p",
+        "Source": "F1827",
+        "Type": "Numerical",
+        "Business Meaning": "Selectively log-transformed F1827 to compress extreme outliers while preserving -999 markers.",
+        "Created In": "Phase_03"
+    },
+    {
+        "Feature": "Retail_Tenure_Interaction",
+        "Source": "Retail_Flag, Account_Tenure_Bucket",
+        "Type": "Interaction",
+        "Business Meaning": "Combines customer segment and tenure to capture specific lifecycle characteristics.",
+        "Created In": "Phase_03"
+    }
+]

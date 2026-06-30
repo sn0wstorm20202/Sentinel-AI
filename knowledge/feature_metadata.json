@@ -1,0 +1,36 @@
+{
+  "feature_mapping": {
+    "F1863": {
+      "concept": "Transaction Velocity",
+      "description": "Frequency of transactions within a 24-hour window.",
+      "direction_meaning": {
+        "positive": "Higher velocity than normal",
+        "negative": "Lower velocity than normal"
+      }
+    },
+    "F921": {
+      "concept": "Geographical Risk",
+      "description": "Risk score associated with the origin IP or merchant location.",
+      "direction_meaning": {
+        "positive": "High-risk location",
+        "negative": "Low-risk/known location"
+      }
+    },
+    "F330": {
+      "concept": "Amount Deviation",
+      "description": "Z-Score of the transaction amount compared to the customer's 30-day average.",
+      "direction_meaning": {
+        "positive": "Unusually large amount",
+        "negative": "Unusually small amount"
+      }
+    },
+    "F2041": {
+      "concept": "Account Age",
+      "description": "Days since the account was opened.",
+      "direction_meaning": {
+        "positive": "Older account",
+        "negative": "Newer account"
+      }
+    }
+  }
+}

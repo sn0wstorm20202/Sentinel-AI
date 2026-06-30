@@ -1,0 +1,5 @@
+{
+    "false_positive_cost": 50,
+    "false_negative_cost": 5000,
+    "manual_review_cost": 25
+}

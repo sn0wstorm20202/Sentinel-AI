@@ -1,0 +1,17 @@
+{
+  "engine": "Node2VecLiteEngine",
+  "type": "Deterministic Approximation (SVD)",
+  "dimensions": 64,
+  "walk_length": 30,
+  "num_walks": 10,
+  "p": 1.0,
+  "q": 1.0,
+  "seed": 42,
+  "total_nodes": 1768,
+  "total_walks": 17680,
+  "training_time_seconds": 28.115,
+  "variance_explained": 0.6527,
+  "generated_at": "2026-06-30T21:16:15Z",
+  "artifact_version": "1.0",
+  "phase": "08"
+}

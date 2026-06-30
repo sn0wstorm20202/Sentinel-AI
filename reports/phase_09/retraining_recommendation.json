@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-06-30T21:16:51Z",
+  "recommendation": "IMMEDIATE_RETRAINING",
+  "reason": "Detected 1 CRITICAL alerts (e.g. Extreme PSI shift in F100).",
+  "human_approval_required": true
+}

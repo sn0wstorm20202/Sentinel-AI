@@ -1,0 +1,21 @@
+{
+    "ML": {
+        "PR-AUC": 0.9182539682539682,
+        "ROC-AUC": 0.9989205526770294,
+        "F1": 0.6666666666666666,
+        "Precision": 0.5,
+        "Recall": 1.0,
+        "Balanced_Accuracy": 0.9955588452997779,
+        "MCC": 0.7039594060027736,
+        "Cohen_Kappa": 0.6627072506805247,
+        "Brier_Score": 0.00240088871352937
+    },
+    "Business": {
+        "Total_Alerts_Generated": 24,
+        "True_Fraud_Caught": 12,
+        "False_Positive_Alerts": 12,
+        "Alert_Precision_Rate": 0.5,
+        "Estimated_Alerts_Saved": 216,
+        "Estimated_Analyst_Hours_Saved": 108.0
+    }
+}

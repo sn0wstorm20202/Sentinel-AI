@@ -1,0 +1,12 @@
+{
+  "total_nodes": 16027,
+  "total_edges": 36258,
+  "density": 0.000282,
+  "connected_components": 1,
+  "average_degree": 4.5246,
+  "assortativity": -0.00051,
+  "average_clustering_coefficient": 0.0,
+  "transitivity": 0,
+  "triangle_count": 0,
+  "average_neighbor_degree": 9.4261
+}

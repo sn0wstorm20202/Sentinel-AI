@@ -1,0 +1,32 @@
+{
+  "graph_version": "1.0",
+  "builder_version": "DeterministicSyntheticBuilder v1.0",
+  "build_strategy": "SHA-256 deterministic hashing with modular entity pools",
+  "seed": "sentinel_ai",
+  "dataset_hash": "fd7e474be14cc9dd",
+  "build_timestamp": "2026-06-30T21:12:40Z",
+  "execution_time_seconds": 0.251,
+  "total_nodes": 16027,
+  "total_edges": 36258,
+  "node_type_counts": {
+    "Transaction": 9082,
+    "Customer": 4167,
+    "Device": 1978,
+    "IP_Address": 300,
+    "Merchant": 500
+  },
+  "edge_type_counts": {
+    "SENT_TO": 9082,
+    "EXECUTED_ON": 9082,
+    "INITIATED": 9082,
+    "CONNECTED_VIA": 9012
+  },
+  "pool_sizes": {
+    "customers": 5000,
+    "devices": 2000,
+    "merchants": 500,
+    "ips": 300
+  },
+  "artifact_version": "1.0",
+  "phase": "07"
+}

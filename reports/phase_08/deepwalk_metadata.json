@@ -1,0 +1,14 @@
+{
+  "engine": "DeepWalkEngine",
+  "dimensions": 64,
+  "walk_length": 30,
+  "num_walks": 10,
+  "seed": 42,
+  "total_nodes": 1768,
+  "total_walks": 17680,
+  "training_time_seconds": 14.201,
+  "variance_explained": 0.6531,
+  "generated_at": "2026-06-30T21:16:29Z",
+  "artifact_version": "1.0",
+  "phase": "08"
+}

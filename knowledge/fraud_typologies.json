@@ -1,0 +1,48 @@
+{
+  "typologies": [
+    {
+      "id": "TYP_001",
+      "name": "Dormant Account Abuse",
+      "description": "An account with historically low activity suddenly initiates high-velocity or high-value transfers.",
+      "required_conceptual_features": [
+        "Transaction Velocity",
+        "Account Age",
+        "Amount Deviation"
+      ],
+      "base_confidence_multiplier": 1.2
+    },
+    {
+      "id": "TYP_002",
+      "name": "Synthetic Identity",
+      "description": "An account exhibiting behaviors indicative of non-human or artificially constructed profiles.",
+      "required_conceptual_features": [
+        "Identity Consistency",
+        "Credit Inquiry Frequency",
+        "Address Volatility"
+      ],
+      "base_confidence_multiplier": 0.9
+    },
+    {
+      "id": "TYP_003",
+      "name": "Account Takeover (ATO)",
+      "description": "Sudden deviation in geographical or device origin combined with immediate fund transfers.",
+      "required_conceptual_features": [
+        "Geographical Risk",
+        "Device ID Change",
+        "Time of Day Deviation"
+      ],
+      "base_confidence_multiplier": 1.1
+    },
+    {
+      "id": "TYP_004",
+      "name": "Money Mule Network",
+      "description": "Rapid succession of incoming deposits followed immediately by outbound transfers to multiple accounts.",
+      "required_conceptual_features": [
+        "Inbound/Outbound Ratio",
+        "Transaction Velocity",
+        "Counterparty Diversity"
+      ],
+      "base_confidence_multiplier": 1.0
+    }
+  ]
+}

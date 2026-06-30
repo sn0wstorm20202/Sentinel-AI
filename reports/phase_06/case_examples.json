@@ -1,0 +1,422 @@
+[
+  {
+    "metadata": {
+      "case_id": "CASE_000",
+      "transaction_id": "TXN_000000",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.6792,
+      "risk_score": 67.9,
+      "risk_tier": "High"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 1.2325,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.2824000120162964
+        },
+        {
+          "feature_id": "F3484",
+          "importance_score": 0.9465,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.21690000593662262
+        },
+        {
+          "feature_id": "F3908",
+          "importance_score": 0.7031,
+          "direction": "positive",
+          "rank": 3,
+          "confidence": 0.16110000014305115
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.5646,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.12939999997615814
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.5363,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.12290000170469284
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_001",
+      "transaction_id": "TXN_000001",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 1.0,
+      "risk_score": 100.0,
+      "risk_tier": "Critical"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 1.1414,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.23199999332427979
+        },
+        {
+          "feature_id": "F1813",
+          "importance_score": 0.6157,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.12520000338554382
+        },
+        {
+          "feature_id": "F3908",
+          "importance_score": 0.5949,
+          "direction": "positive",
+          "rank": 3,
+          "confidence": 0.120899997651577
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.5639,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.11460000276565552
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.5393,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.1096000000834465
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_002",
+      "transaction_id": "TXN_000002",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 1.0,
+      "risk_score": 100.0,
+      "risk_tier": "Critical"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 0.9417,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.19339999556541443
+        },
+        {
+          "feature_id": "F1813",
+          "importance_score": 0.7053,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.14480000734329224
+        },
+        {
+          "feature_id": "F3662",
+          "importance_score": 0.5476,
+          "direction": "negative",
+          "rank": 3,
+          "confidence": 0.11249999701976776
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.5418,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.11129999905824661
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.4727,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.09709999710321426
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_003",
+      "transaction_id": "TXN_000003",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 1.0,
+      "risk_score": 100.0,
+      "risk_tier": "Critical"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 1.1993,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.24310000240802765
+        },
+        {
+          "feature_id": "F3908",
+          "importance_score": 0.6974,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.14139999449253082
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.6596,
+          "direction": "positive",
+          "rank": 3,
+          "confidence": 0.13369999825954437
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.5616,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.11389999836683273
+        },
+        {
+          "feature_id": "F1813",
+          "importance_score": 0.545,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.11050000041723251
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_004",
+      "transaction_id": "TXN_000004",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 1.0,
+      "risk_score": 100.0,
+      "risk_tier": "Critical"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 0.8409,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.17190000414848328
+        },
+        {
+          "feature_id": "F1813",
+          "importance_score": 0.7152,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.1462000012397766
+        },
+        {
+          "feature_id": "F949",
+          "importance_score": 0.5273,
+          "direction": "positive",
+          "rank": 3,
+          "confidence": 0.10779999941587448
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.5247,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.10729999840259552
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.5031,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.10289999842643738
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_005",
+      "transaction_id": "TXN_000005",
+      "generated_at": "2026-06-30 21:12:34",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.0004,
+      "risk_score": 0.0,
+      "risk_tier": "Approve"
+    },
+    "intelligence": {
+      "evidence": [],
+      "hypotheses": [],
+      "natural_language_summary": null
+    },
+    "action_engine": {
+      "recommendations": []
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_006",
+      "transaction_id": "TXN_000006",
+      "generated_at": "2026-06-30 21:12:34",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.0091,
+      "risk_score": 0.9,
+      "risk_tier": "Approve"
+    },
+    "intelligence": {
+      "evidence": [],
+      "hypotheses": [],
+      "natural_language_summary": null
+    },
+    "action_engine": {
+      "recommendations": []
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_007",
+      "transaction_id": "TXN_000007",
+      "generated_at": "2026-06-30 21:12:34",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.0196,
+      "risk_score": 2.0,
+      "risk_tier": "Approve"
+    },
+    "intelligence": {
+      "evidence": [],
+      "hypotheses": [],
+      "natural_language_summary": null
+    },
+    "action_engine": {
+      "recommendations": []
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_008",
+      "transaction_id": "TXN_000008",
+      "generated_at": "2026-06-30 21:12:34",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.0004,
+      "risk_score": 0.0,
+      "risk_tier": "Approve"
+    },
+    "intelligence": {
+      "evidence": [],
+      "hypotheses": [],
+      "natural_language_summary": null
+    },
+    "action_engine": {
+      "recommendations": []
+    }
+  },
+  {
+    "metadata": {
+      "case_id": "CASE_009",
+      "transaction_id": "TXN_000009",
+      "generated_at": "2026-06-30 21:12:34",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.0004,
+      "risk_score": 0.0,
+      "risk_tier": "Approve"
+    },
+    "intelligence": {
+      "evidence": [],
+      "hypotheses": [],
+      "natural_language_summary": null
+    },
+    "action_engine": {
+      "recommendations": []
+    }
+  }
+]
