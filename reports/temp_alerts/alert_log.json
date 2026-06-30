@@ -1,0 +1,10 @@
+[
+  {
+    "timestamp": "2026-06-30T22:26:45Z",
+    "severity": "CRITICAL",
+    "category": "Data Drift",
+    "message": "Extreme PSI shift in F3924",
+    "metric_value": 0.3,
+    "threshold": 0.2
+  }
+]

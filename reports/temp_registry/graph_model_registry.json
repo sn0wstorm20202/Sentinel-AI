@@ -1,0 +1,30 @@
+[
+  {
+    "model_name": "MockSAGE",
+    "experiment_id": "exp_123",
+    "dataset_hash": "1234",
+    "metrics": {
+      "PR-AUC": 0.95
+    },
+    "validation_status": "PASS",
+    "deployment_ready": "YES",
+    "status": "Staging",
+    "notes": "",
+    "model_id": "MockSAGE_20260630222559",
+    "registration_date": "2026-06-30T22:25:59Z"
+  },
+  {
+    "model_name": "MockSAGE",
+    "experiment_id": "exp_123",
+    "dataset_hash": "1234",
+    "metrics": {
+      "PR-AUC": 0.95
+    },
+    "validation_status": "PASS",
+    "deployment_ready": "YES",
+    "status": "Champion",
+    "notes": "",
+    "model_id": "MockSAGE_20260630222645",
+    "registration_date": "2026-06-30T22:26:45Z"
+  }
+]
