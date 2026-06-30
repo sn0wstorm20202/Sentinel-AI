@@ -30,7 +30,8 @@ class InvestigationCase:
     )
 
     def to_dict(self) -> dict:
-        return {
+        from src.common.json_utils import sanitize_for_json
+        d = {
             "metadata": {
                 "case_id": self.case_id,
                 "transaction_id": self.transaction_id,
@@ -51,3 +52,4 @@ class InvestigationCase:
                 "recommendations": [r.__dict__ for r in self.recommendations]
             },
         }
+        return sanitize_for_json(d)

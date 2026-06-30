@@ -21,9 +21,13 @@ class HypothesisEngine:
 
         # Map raw feature IDs in evidence to conceptual names
         observed_concepts = {}
+        from src.exceptions import KnowledgeBaseError
         for ev in evidence:
-            concept = self.km.get_feature_concept(ev.feature_id)
-            observed_concepts[concept] = ev
+            try:
+                concept = self.km.get_feature_concept(ev.feature_id)
+                observed_concepts[concept] = ev
+            except KnowledgeBaseError:
+                continue
 
         for typ in typologies:
             required_concepts = typ.get("required_conceptual_features", [])
