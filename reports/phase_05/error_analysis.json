@@ -1,0 +1,96 @@
+{
+    "False_Positives_Count": 12,
+    "False_Negatives_Count": 0,
+    "FP_Deep_Analysis": [
+        {
+            "Transaction_ID": "TXN_2953",
+            "Probability": 0.04320463813686123,
+            "Top_Drivers": [
+                "F3898 (0.87)",
+                "F3395 (-0.62)",
+                "F3711 (-0.36)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_2703",
+            "Probability": 0.04668803575138251,
+            "Top_Drivers": [
+                "F3662 (-0.85)",
+                "F3898 (0.75)",
+                "F3914 (0.45)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_3110",
+            "Probability": 0.04320463813686123,
+            "Top_Drivers": [
+                "F950 (-0.60)",
+                "F3898 (0.54)",
+                "F3908 (-0.39)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_285",
+            "Probability": 0.5754843056201935,
+            "Top_Drivers": [
+                "F3914 (-0.88)",
+                "F3898 (0.77)",
+                "F3395 (-0.73)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_1332",
+            "Probability": 0.06844405829906464,
+            "Top_Drivers": [
+                "F3898 (1.04)",
+                "F3662 (-0.73)",
+                "F950 (-0.58)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_980",
+            "Probability": 0.13411373175525418,
+            "Top_Drivers": [
+                "F3898 (0.63)",
+                "F3908 (-0.52)",
+                "F3348 (0.46)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_956",
+            "Probability": 0.06844405829906464,
+            "Top_Drivers": [
+                "F3898 (0.76)",
+                "F3908 (0.65)",
+                "F3484 (0.62)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_1021",
+            "Probability": 0.21397564063469568,
+            "Top_Drivers": [
+                "F1921 (-1.02)",
+                "F3898 (0.94)",
+                "F1813 (0.64)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_8322",
+            "Probability": 0.04668803575138251,
+            "Top_Drivers": [
+                "F3914 (-0.77)",
+                "F3395 (-0.68)",
+                "F3898 (0.66)"
+            ]
+        },
+        {
+            "Transaction_ID": "TXN_2811",
+            "Probability": 0.07049190315107505,
+            "Top_Drivers": [
+                "F3898 (-1.31)",
+                "F949 (0.56)",
+                "F1921 (0.53)"
+            ]
+        }
+    ]
+}

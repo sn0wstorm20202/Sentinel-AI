@@ -1,0 +1,29 @@
+{
+  "phase": "06_AI_Investigator_Copilot",
+  "engine_version": "4.0",
+  "champion_model": "CalibratedClassifierCV",
+  "explainer": "TreeExplainer",
+  "knowledge_files": [
+    "feature_metadata.json",
+    "fraud_typologies.json",
+    "aml_policies.json"
+  ],
+  "fie_modules": [
+    "EvidenceEngine",
+    "HypothesisEngine",
+    "RecommendationEngine",
+    "NaturalLanguageEngine"
+  ],
+  "total_cases_validated": 10,
+  "latency": {
+    "decision_engine_ms": 109.64,
+    "shap_engine_ms": 13.62,
+    "evidence_engine_ms": 0.34,
+    "hypothesis_engine_ms": 0.06,
+    "recommendation_engine_ms": 0.06,
+    "nlg_engine_ms": 0.04,
+    "total_pipeline_ms": 123.76
+  },
+  "generated_at": "2026-06-30T21:12:34Z",
+  "artifact_version": "1.0"
+}

@@ -1,0 +1,123 @@
+[NbConvertApp] Converting notebook notebooks\08_Graph_Learning_Advanced_Intelligence.ipynb to notebook
+C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\zmq\_future.py:718: RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
+  self._get_loop()
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Scripts\jupyter-nbconvert.EXE\__main__.py", line 5, in <module>
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\jupyter_core\application.py", line 284, in launch_instance
+    super().launch_instance(argv=argv, **kwargs)
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\traitlets\config\application.py", line 1082, in launch_instance
+    app.start()
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\nbconvertapp.py", line 420, in start
+    self.convert_notebooks()
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\nbconvertapp.py", line 597, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\nbconvertapp.py", line 563, in convert_single_notebook
+    output, resources = self.export_single_notebook(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\nbconvertapp.py", line 487, in export_single_notebook
+    output, resources = self.exporter.from_filename(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\exporters\exporter.py", line 201, in from_filename
+    return self.from_file(f, resources=resources, **kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\exporters\exporter.py", line 220, in from_file
+    return self.from_notebook_node(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\exporters\notebook.py", line 36, in from_notebook_node
+    nb_copy, resources = super().from_notebook_node(nb, resources, **kw)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\exporters\exporter.py", line 154, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\exporters\exporter.py", line 353, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\preprocessors\base.py", line 48, in __call__
+    return self.preprocess(nb, resources)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\preprocessors\execute.py", line 103, in preprocess
+    self.preprocess_cell(cell, resources, index)
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbconvert\preprocessors\execute.py", line 124, in preprocess_cell
+    cell = self.execute_cell(cell, index, store_history=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\jupyter_core\utils\__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\manid\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\manid\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+with open(REPORTS_DIR / "graph_model_card.md", "w") as f:
+    f.write("# Graph Learning Model Card\n\n")
+    f.write("**Winning Model**: Full Fusion (XGBoost + Node2Vec-Lite + Graph Topology)\n")
+    f.write("**Dataset Hash**: " + dataset_hash + "\n\n")
+    f.write("## Leaderboard\n\n")
+    f.write(leaderboard.to_markdown(index=False))
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mFile [39m[32m~\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\pandas\compat\_optional.py:135[39m, in [36mimport_optional_dependency[39m[34m(name, extra, errors, min_version)[39m
+[32m    134[39m [38;5;28;01mtry[39;00m:
+[32m--> [39m[32m135[39m     module = [30;43mimportlib[39;49m[30;43m.[39;49m[30;43mimport_module[39;49m[30;43m([39;49m[30;43mname[39;49m[30;43m)[39;49m
+[32m    136[39m [38;5;28;01mexcept[39;00m [38;5;167;01mImportError[39;00m:
+
+[36mFile [39m[32m~\AppData\Local\Programs\Python\Python312\Lib\importlib\__init__.py:90[39m, in [36mimport_module[39m[34m(name, package)[39m
+[32m     89[39m         level += [32m1[39m
+[32m---> [39m[32m90[39m [38;5;28;01mreturn[39;00m [30;43m_bootstrap[39;49m[30;43m.[39;49m[30;43m_gcd_import[39;49m[30;43m([39;49m[30;43mname[39;49m[30;43m[[39;49m[30;43mlevel[39;49m[30;43m:[39;49m[30;43m][39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mpackage[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43mlevel[39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m<frozen importlib._bootstrap>:1387[39m, in [36m_gcd_import[39m[34m(name, package, level)[39m
+
+[36mFile [39m[32m<frozen importlib._bootstrap>:1360[39m, in [36m_find_and_load[39m[34m(name, import_)[39m
+
+[36mFile [39m[32m<frozen importlib._bootstrap>:1324[39m, in [36m_find_and_load_unlocked[39m[34m(name, import_)[39m
+
+[31mModuleNotFoundError[39m: No module named 'tabulate'
+
+During handling of the above exception, another exception occurred:
+
+[31mImportError[39m                               Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 6[39m
+[32m      2[39m     f.write([33m"# Graph Learning Model Card\n\n"[39m)
+[32m      3[39m     f.write([33m"**Winning Model**: Full Fusion (XGBoost + Node2Vec-Lite + Graph Topology)\n"[39m)
+[32m      4[39m     f.write([33m"**Dataset Hash**: "[39m + dataset_hash + [33m"\n\n"[39m)
+[32m      5[39m     f.write([33m"## Leaderboard\n\n"[39m)
+[32m----> [39m[32m6[39m     f.write(leaderboard.to_markdown(index=[38;5;28;01mFalse[39;00m))
+
+[36mFile [39m[32m~\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\pandas\util\_decorators.py:333[39m, in [36mdeprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper[39m[34m(*args, **kwargs)[39m
+[32m    327[39m [38;5;28;01mif[39;00m [38;5;28mlen[39m(args) > num_allow_args:
+[32m    328[39m     warnings.warn(
+[32m    329[39m         msg.format(arguments=_format_argument_list(allow_args)),
+[32m    330[39m         [38;5;167;01mFutureWarning[39;00m,
+[32m    331[39m         stacklevel=find_stack_level(),
+[32m    332[39m     )
+[32m--> [39m[32m333[39m [38;5;28;01mreturn[39;00m [30;43mfunc[39;49m[30;43m([39;49m[30;43m*[39;49m[30;43margs[39;49m[30;43m,[39;49m[30;43m [39;49m[30;43m*[39;49m[30;43m*[39;49m[30;43mkwargs[39;49m[30;43m)[39;49m
+
+[36mFile [39m[32m~\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\pandas\core\frame.py:2994[39m, in [36mDataFrame.to_markdown[39m[34m(self, buf, mode, index, storage_options, **kwargs)[39m
+[32m   2990[39m 
+[32m   2991[39m         kwargs.setdefault([33m"headers"[39m, [33m"keys"[39m)
+[32m   2992[39m         kwargs.setdefault([33m"tablefmt"[39m, [33m"pipe"[39m)
+[32m   2993[39m         kwargs.setdefault([33m"showindex"[39m, index)
+[32m-> [39m[32m2994[39m         tabulate = import_optional_dependency([33m"tabulate"[39m)
+[32m   2995[39m         result = tabulate.tabulate(self, **kwargs)
+[32m   2996[39m         [38;5;28;01mif[39;00m buf [38;5;28;01mis[39;00m [38;5;28;01mNone[39;00m:
+[32m   2997[39m             [38;5;28;01mreturn[39;00m result
+
+[36mFile [39m[32m~\Projects\Fraud_Detection_Pipeline\AI-Fraud-Detection-Platform\.venv\Lib\site-packages\pandas\compat\_optional.py:138[39m, in [36mimport_optional_dependency[39m[34m(name, extra, errors, min_version)[39m
+[32m    136[39m [38;5;28;01mexcept[39;00m [38;5;167;01mImportError[39;00m:
+[32m    137[39m     [38;5;28;01mif[39;00m errors == [33m"[39m[33mraise[39m[33m"[39m:
+[32m--> [39m[32m138[39m         [38;5;28;01mraise[39;00m [38;5;167;01mImportError[39;00m(msg)
+[32m    139[39m     [38;5;28;01mreturn[39;00m [38;5;28;01mNone[39;00m
+[32m    141[39m [38;5;66;03m# Handle submodules: if we have submodule, grab parent module from sys.modules[39;00m
+
+[31mImportError[39m: Missing optional dependency 'tabulate'.  Use pip or conda to install tabulate.
+

@@ -1,0 +1,73 @@
+{
+  "feature_store_version": "1.0",
+  "build_timestamp": "2026-06-30T21:15:37Z",
+  "total_rows": 16027,
+  "total_features": 13,
+  "features": [
+    {
+      "name": "node_id",
+      "dtype": "object",
+      "description": "Unique node identifier"
+    },
+    {
+      "name": "node_type",
+      "dtype": "object",
+      "description": "Entity type (Transaction, Customer, Device, etc.)"
+    },
+    {
+      "name": "degree",
+      "dtype": "float64",
+      "description": "Number of direct connections"
+    },
+    {
+      "name": "pagerank",
+      "dtype": "float64",
+      "description": "PageRank centrality score"
+    },
+    {
+      "name": "betweenness",
+      "dtype": "float64",
+      "description": "Betweenness centrality score"
+    },
+    {
+      "name": "closeness",
+      "dtype": "float64",
+      "description": "Closeness centrality score"
+    },
+    {
+      "name": "eigenvector",
+      "dtype": "float64",
+      "description": "Eigenvector centrality score"
+    },
+    {
+      "name": "community_id",
+      "dtype": "int64",
+      "description": "Detected community identifier"
+    },
+    {
+      "name": "community_size",
+      "dtype": "int64",
+      "description": "Number of nodes in the community"
+    },
+    {
+      "name": "community_risk",
+      "dtype": "float64",
+      "description": "Average risk of the community"
+    },
+    {
+      "name": "entity_risk",
+      "dtype": "float64",
+      "description": "Propagated entity risk score"
+    },
+    {
+      "name": "neighbor_fraud_ratio",
+      "dtype": "float64",
+      "description": "Fraction of 1-hop neighbours that are fraud Transactions"
+    },
+    {
+      "name": "graph_distance_to_fraud",
+      "dtype": "int64",
+      "description": "Shortest path to nearest fraud Transaction (max 10)"
+    }
+  ]
+}

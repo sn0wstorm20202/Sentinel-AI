@@ -1,0 +1,14 @@
+# Model Card: Hybrid Fraud Intelligence Engine
+- **Date**: 2026-06-30
+- **Intended Use**: Enterprise fraud detection pipeline identifying high-risk transactions for analyst review.
+- **Out-of-Scope Use**: Fully automated declining of non-critical transactions without human oversight.
+- **Dataset Description**: Bank of India anonymized transaction records post-feature governance.
+- **Algorithm**: XGBoost
+- **Calibration**: Isotonic Regression
+- **Business Threshold**: 0.0397
+- **Imbalance Handling**: Baseline
+- **Ethical Considerations**: Variables are anonymized; fairness tests across demographics required before true production deployment.
+- **Known Limitations**: Susceptible to concept drift if new fraud rings rapidly alter transaction patterns.
+- **Business Assumptions**: FP investigation cost estimated at $50. FN estimated loss assumed at $5000. These values are configurable in `business_config.json` and should be replaced by institution-specific estimates.
+- **Retraining Strategy**: Automatic weekly retraining using `business_config.json` threshold optimization.
+- **Monitoring Strategy**: Trigger alerts if feature means drift > 15% from `training_drift_stats.json`.

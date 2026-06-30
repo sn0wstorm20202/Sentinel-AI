@@ -1,0 +1,23 @@
+// Artifact Dependency Graph
+digraph {
+	A [label="Raw Dataset"]
+	B [label="Processed Dataset"]
+	C [label="Feature Engineered Dataset"]
+	D [label="Approved Features"]
+	E [label="Champion Model"]
+	F [label="Graph Network (GraphML)"]
+	G [label="Graph Feature Store"]
+	H [label="Fusion Dataset"]
+	I [label="Model Registry"]
+	J [label="Drift Reference"]
+	A -> B
+	B -> C
+	C -> D
+	D -> E
+	D -> F
+	F -> G
+	D -> H
+	G -> H
+	H -> I
+	H -> J
+}

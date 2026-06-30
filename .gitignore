@@ -1,0 +1,56 @@
+# Local Python environments
+.venv/
+venv/
+.python-runtime/
+
+# Python caches and build output
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Notebook and editor state
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Generated datasets and runtime artifacts
+data/processed/*
+!data/processed/README.md
+models/*
+!models/README.md
+!models/trained/
+!models/checkpoints/
+!models/weights/
+models/trained/*
+!models/trained/README.md
+models/checkpoints/*
+!models/checkpoints/README.md
+models/weights/*
+!models/weights/README.md
+checkpoints/*
+!checkpoints/README.md
+reports/logs/*
+!reports/logs/README.md
+artifacts/*
+!artifacts/README.md
+
+# Serialized model formats
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+
+# Operating system files
+.DS_Store
+Thumbs.db

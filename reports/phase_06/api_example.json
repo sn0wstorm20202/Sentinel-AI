@@ -1,0 +1,71 @@
+{
+  "request": {
+    "request_id": "REQ_DEMO_001",
+    "case_id": "CASE_000",
+    "transaction_id": "TXN_000000",
+    "timestamp": "2026-07-01T00:00:00Z"
+  },
+  "response": {
+    "metadata": {
+      "case_id": "CASE_000",
+      "transaction_id": "TXN_000000",
+      "generated_at": "2026-06-30 21:12:33",
+      "engine_version": "4.0"
+    },
+    "risk_assessment": {
+      "probability": 0.6792,
+      "risk_score": 67.9,
+      "risk_tier": "High"
+    },
+    "intelligence": {
+      "evidence": [
+        {
+          "feature_id": "F3898",
+          "importance_score": 1.2325,
+          "direction": "positive",
+          "rank": 1,
+          "confidence": 0.2824000120162964
+        },
+        {
+          "feature_id": "F3484",
+          "importance_score": 0.9465,
+          "direction": "positive",
+          "rank": 2,
+          "confidence": 0.21690000593662262
+        },
+        {
+          "feature_id": "F3908",
+          "importance_score": 0.7031,
+          "direction": "positive",
+          "rank": 3,
+          "confidence": 0.16110000014305115
+        },
+        {
+          "feature_id": "F3914",
+          "importance_score": 0.5646,
+          "direction": "positive",
+          "rank": 4,
+          "confidence": 0.12939999997615814
+        },
+        {
+          "feature_id": "F3348",
+          "importance_score": 0.5363,
+          "direction": "positive",
+          "rank": 5,
+          "confidence": 0.12290000170469284
+        }
+      ],
+      "hypotheses": [],
+      "natural_language_summary": "No specific fraud patterns were identified. Risk score driven by general baseline deviation."
+    },
+    "action_engine": {
+      "recommendations": [
+        {
+          "priority": 1,
+          "action": "Manual Review",
+          "reason": "High risk score flagged by Decision Engine."
+        }
+      ]
+    }
+  }
+}
