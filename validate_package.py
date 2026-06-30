@@ -118,7 +118,8 @@ def test_knowledge_base():
         with open(k_dir / "aml_policies.json", "r") as f:
             ap = json.load(f)
             
-        valid_concepts = set(meta.get("concept") for meta in fm.values() if "concept" in meta)
+        fm_features = fm.get("feature_mapping", fm)
+        valid_concepts = set(meta.get("concept") for meta in fm_features.values() if "concept" in meta)
         for typ in ft.get("typologies", []):
             for concept in typ.get("required_conceptual_features", []):
                 if concept not in valid_concepts:

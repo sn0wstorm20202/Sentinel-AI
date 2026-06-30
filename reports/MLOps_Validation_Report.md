@@ -2,7 +2,7 @@
 
 | Validation Target | Status | Notes |
 | :--- | :--- | :--- |
-| **PSI (Data Drift)** | ✅ PASS | Stable PSI: 0.024, Drift PSI: 11.697 |
+| **PSI (Data Drift)** | ✅ PASS | Stable PSI: 0.007, Drift PSI: 13.302 |
 | **Prediction Drift** | ✅ PASS | Successfully detected prediction distribution shifts |
 | **Concept Drift** | ✅ PASS | Successfully detected underlying concept/performance drift |
 | **Embedding Drift** | ✅ PASS | Covariance/distance shift detected in Graph embeddings |
