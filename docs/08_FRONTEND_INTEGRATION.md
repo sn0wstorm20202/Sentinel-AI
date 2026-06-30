@@ -47,3 +47,10 @@ The API returns standard HTTP status codes:
 - `404 Not Found`: Entity or Case ID not found in the graph.
 - `500 Internal Server Error`: Pipeline failure (check backend logs).
 - `503 Service Unavailable`: Artifacts missing (e.g., Graph not built yet).
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](07_API_REFERENCE.md) | [Next ➡️](09_DEPLOYMENT.md)

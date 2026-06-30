@@ -44,3 +44,10 @@ Global Model Registry
 The purpose of Phase 8 is **not** to maximize Graph Neural Network performance. 
 Instead, it is to **evaluate whether graph representations provide measurable improvement over the tabular fraud model.**
 If a classical XGBoost model trained on Node2Vec embeddings outperforms a deep GraphSAGE network, that is a scientifically valid and operationally preferable outcome.
+
+
+---
+
+## Navigation
+
+[🏠 Home](../README.md) | [⬅️ Previous](04_AI_PIPELINE.md) | [Next ➡️](06_MLOPS_PIPELINE.md)

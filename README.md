@@ -42,16 +42,16 @@ Packaging the backend with FastAPI and Docker. Developing the React/Vite Investi
 
 ## Documentation
 Please refer to the `docs/` directory for detailed architectural blueprints and API contracts:
-- `docs/01_PROJECT_OVERVIEW.md`
-- `docs/02_SYSTEM_ARCHITECTURE.md`
-- `docs/03_DATA_PIPELINE.md`
-- `docs/04_AI_PIPELINE.md`
-- `docs/05_GRAPH_PIPELINE.md`
-- `docs/06_MLOPS_PIPELINE.md`
-- `docs/07_API_REFERENCE.md`
-- `docs/08_FRONTEND_INTEGRATION.md`
-- `docs/09_DEPLOYMENT.md`
-- `docs/10_EXPERIMENTS.md`
-- `docs/DECISIONS.md`
+- [Project Overview](docs/01_PROJECT_OVERVIEW.md)
+- [System Architecture](docs/02_SYSTEM_ARCHITECTURE.md)
+- [Data Pipeline](docs/03_DATA_PIPELINE.md)
+- [AI Pipeline](docs/04_AI_PIPELINE.md)
+- [Graph Pipeline](docs/05_GRAPH_PIPELINE.md)
+- [MLOps Pipeline](docs/06_MLOPS_PIPELINE.md)
+- [API Reference](docs/07_API_REFERENCE.md)
+- [Frontend Integration](docs/08_FRONTEND_INTEGRATION.md)
+- [Deployment](docs/09_DEPLOYMENT.md)
+- [Experiments](docs/10_EXPERIMENTS.md)
+- [Decisions Log](docs/DECISIONS.md)
 - `docs/architecture/` (System Diagrams)
 - `docs/reports/project_journal/` (Phase Notebook logs)
