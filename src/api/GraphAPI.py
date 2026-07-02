@@ -146,9 +146,9 @@ def get_case_network(case_id: str):
     all_nodes = _load_json(VIZ_DIR / "nodes.json")
     all_edges = _load_json(VIZ_DIR / "edges.json")
 
-    # Map case_id to transaction_id (since case_id is CASE_XXX and nodes are TXN_XXX)
-    # The nodes are indexed by transaction id.
-    txn_id = case_id.replace("CASE_", "TXN_")
+    # Map case_id to transaction_id (CASE_XXX -> TXN_000XXX)
+    txn_id_number = case_id.split("_")[1]
+    txn_id = f"TXN_{int(txn_id_number):06d}"
     
     # Find the transaction node
     txn_node = None

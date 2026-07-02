@@ -38,8 +38,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <Topbar />
 
         <main className="flex-1 overflow-hidden">
-        {/* @ts-expect-error autoSaveId is used by react-resizable-panels 4.x */}
-        <ResizablePanelGroup orientation="horizontal" autoSaveId="sentinel-global-panels">
+        <ResizablePanelGroup orientation="horizontal">
           <ResizablePanel defaultSize={100} minSize={30}>
               {/*
                * AnimatePresence with key=pathname drives the page-to-page
@@ -61,7 +60,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               {activePanel && (
                 <>
                   <ResizableHandle withHandle />
-                  <ResizablePanel defaultSize={30} minSize={20} maxSize={50}>
+                  <ResizablePanel defaultSize={30} minSize={15} maxSize={85}>
                     <motion.div
                       key="copilot-panel"
                       className="h-full border-l bg-background"
