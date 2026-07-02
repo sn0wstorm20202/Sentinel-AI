@@ -19,8 +19,8 @@ WORKDIR /app
 # Install curl for healthcheck
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user
-RUN groupadd -r sentinel && useradd -r -g sentinel sentinel
+# Create non-root user with home directory
+RUN groupadd -r sentinel && useradd -m -r -g sentinel -d /home/sentinel sentinel
 
 # Copy wheels from builder
 COPY --from=builder /app/wheels /wheels
@@ -40,6 +40,12 @@ COPY knowledge/ /app/knowledge/
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV WORKERS=4
+ENV HOME=/home/sentinel
+ENV XDG_CACHE_HOME=/tmp/.cache
+ENV MPLCONFIGDIR=/tmp/matplotlib
+ENV NUMBA_CACHE_DIR=/tmp/numba_cache
+ENV HF_HOME=/tmp/huggingface
+ENV TORCH_HOME=/tmp/torch
 
 # Chown all files to non-root user
 RUN chown -R sentinel:sentinel /app
