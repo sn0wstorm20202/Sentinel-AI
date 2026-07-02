@@ -146,21 +146,25 @@ def get_case_network(case_id: str):
     all_nodes = _load_json(VIZ_DIR / "nodes.json")
     all_edges = _load_json(VIZ_DIR / "edges.json")
 
+    # Map case_id to transaction_id (since case_id is CASE_XXX and nodes are TXN_XXX)
+    # The nodes are indexed by transaction id.
+    txn_id = case_id.replace("CASE_", "TXN_")
+    
     # Find the transaction node
     txn_node = None
     for n in all_nodes:
-        if n["id"] == case_id:
+        if n["id"] == txn_id:
             txn_node = n
             break
     if txn_node is None:
-        raise HTTPException(status_code=404, detail=f"Transaction {case_id} not found.")
+        raise HTTPException(status_code=404, detail=f"Transaction {txn_id} not found.")
 
     # Collect 1-hop and 2-hop neighbours
     hop1_ids = set()
     for e in all_edges:
-        if e["source"] == case_id:
+        if e["source"] == txn_id:
             hop1_ids.add(e["target"])
-        elif e["target"] == case_id:
+        elif e["target"] == txn_id:
             hop1_ids.add(e["source"])
 
     hop2_ids = set()
@@ -170,7 +174,7 @@ def get_case_network(case_id: str):
         elif e["target"] in hop1_ids:
             hop2_ids.add(e["source"])
 
-    all_relevant_ids = {case_id} | hop1_ids | hop2_ids
+    all_relevant_ids = {txn_id} | hop1_ids | hop2_ids
     subgraph_nodes = [n for n in all_nodes if n["id"] in all_relevant_ids]
     subgraph_edges = [
         e
@@ -178,4 +182,28 @@ def get_case_network(case_id: str):
         if e["source"] in all_relevant_ids and e["target"] in all_relevant_ids
     ]
 
-    return {"nodes": subgraph_nodes, "edges": subgraph_edges}
+    # Map to React Flow schema
+    rf_nodes = []
+    for n in subgraph_nodes:
+        rf_nodes.append({
+            "id": n["id"],
+            "type": "custom",
+            "data": {
+                "label": n["label"],
+                "type": n["type"],
+                "risk_score": n.get("risk", 0) * 100,
+                "community": n.get("community"),
+                "pagerank": n.get("pagerank")
+            }
+        })
+        
+    rf_edges = []
+    for idx, e in enumerate(subgraph_edges):
+        rf_edges.append({
+            "id": f"edge_{idx}",
+            "source": e["source"],
+            "target": e["target"],
+            "label": e.get("type", "")
+        })
+
+    return {"nodes": rf_nodes, "edges": rf_edges}
