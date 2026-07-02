@@ -56,7 +56,9 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              {intelligence.natural_language_summary.hypothesis_explanation}
+              {typeof intelligence.natural_language_summary === 'string' 
+                ? intelligence.natural_language_summary 
+                : intelligence.natural_language_summary?.hypothesis_explanation || 'No summary available.'}
             </p>
           </CardContent>
         </Card>
@@ -74,7 +76,7 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
           {intelligence.fraud_hypotheses.map((hyp, i) => (
             <motion.div key={i} variants={fadeUpItem} style={{ willChange: 'opacity, transform' }}>
               <Card>
-                <CardContent className="p-4">
+                <CardContent>
                   <div className="flex justify-between items-start mb-2">
                     <p className="font-semibold">{hyp.name}</p>
                     <Badge variant={hyp.confidence > 0.6 ? "default" : "secondary"}>
@@ -83,7 +85,7 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
                   </div>
                   <div className="flex flex-wrap gap-1 mt-2">
                     {hyp.supporting_features.map(feat => (
-                      <Badge key={feat} variant="outline" className="text-xs text-muted-foreground bg-muted/50">
+                      <Badge key={feat} variant="outline" size="sm" className="text-muted-foreground bg-muted/50">
                         {feat}
                       </Badge>
                     ))}
@@ -104,7 +106,7 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
           Recommended Actions
         </motion.h3>
         <motion.div className="space-y-3" variants={staggerContainerFast}>
-          {action_engine.recommended_actions.map((action, i) => (
+          {(action_engine.recommendations || action_engine.recommended_actions || []).map((action, i) => (
             <motion.div
               key={i}
               variants={fadeUpItem}

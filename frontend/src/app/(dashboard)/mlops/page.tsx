@@ -7,31 +7,79 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BrainCircuit, Activity, Database, GitBranch } from "lucide-react";
 import { useMotionVariants } from "@/lib/motion/use-motion-variants";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
+import { useMLOpsMetrics } from "@/lib/api/hooks/use-mlops";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const experiments = [
-  { id: "EXP-891", model: "XGBoost-V4.1",  status: "Deployed",   auc: "0.955", date: "2026-06-30" },
-  { id: "EXP-890", model: "LightGBM-V2.0", status: "Evaluating", auc: "0.950", date: "2026-06-28" },
-  { id: "EXP-889", model: "TabNet-V1.0",   status: "Failed",     auc: "-",     date: "2026-06-25" },
-  { id: "EXP-888", model: "XGBoost-V4.0",  status: "Archived",   auc: "0.942", date: "2026-05-15" },
-];
-
-const statCards = [
-  { title: "Champion Model", value: "XGBoost v4.1", sub: "Deployed 2 days ago", badge: "Active", icon: BrainCircuit, iconColor: "" },
-  { title: "Current AUC-ROC", value: "0.955", sub: "+0.013 from previous champion", badge: null, icon: Activity, iconColor: "text-emerald-500", valueColor: "text-emerald-500" },
-  { title: "Graph Engine Status", value: "Connected", sub: "1.2M nodes, 4.5M edges", badge: null, icon: GitBranch, iconColor: "" },
-  { title: "Feature Store", value: "Healthy", sub: "No data drift detected", badge: null, icon: Database, iconColor: "" },
-];
 
 export default function MlOpsDashboard() {
   const { staggerContainer, staggerContainerFast, fadeUpItem } = useMotionVariants();
+  const { data: metrics, isLoading } = useMLOpsMetrics();
+
+  const statCards = [
+    { title: "Champion Model", value: metrics?.champion_model || "Loading...", sub: "Deployed recently", badge: "Active", icon: BrainCircuit, iconColor: "" },
+    { title: "Current AUC-ROC", value: metrics?.auc_roc?.toString() || "-", sub: "Latest evaluation", badge: null, icon: Activity, iconColor: "text-emerald-500", valueColor: "text-emerald-500" },
+    { title: "Graph Engine Status", value: "Connected", sub: "Live data", badge: null, icon: GitBranch, iconColor: "" },
+    { title: "Feature Store", value: metrics?.feature_store_status || "Checking...", sub: "Data drift monitoring", badge: null, icon: Database, iconColor: "" },
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="flex-1 space-y-6 overflow-y-auto p-8" role="status" aria-label="Loading MLOps dashboard">
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-56" />
+            <Skeleton className="h-4 w-96 max-w-full" />
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Card key={index}>
+              <CardHeader className="space-y-2 pb-2">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-4 self-end" />
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-8 w-24" />
+                <Skeleton className="h-3 w-32" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <div className="grid gap-4 md:grid-cols-7">
+          <Card className="col-span-4">
+            <CardHeader>
+              <Skeleton className="h-5 w-56" />
+              <Skeleton className="h-4 w-72" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-[350px] w-full" />
+            </CardContent>
+          </Card>
+          <Card className="col-span-3">
+            <CardHeader>
+              <Skeleton className="h-5 w-44" />
+              <Skeleton className="h-4 w-64" />
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <Skeleton key={index} className="h-8 w-full" />
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <motion.div
-      className="flex-1 space-y-6 p-8 overflow-y-auto"
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-    >
+    <ErrorBoundary name="MLOps Dashboard">
+      <motion.div
+        className="flex-1 space-y-6 p-8 overflow-y-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
       {/* Header */}
       <motion.div className="flex items-center justify-between" variants={fadeUpItem}>
         <div>
@@ -56,7 +104,7 @@ export default function MlOpsDashboard() {
                 <div className={`text-2xl font-bold ${'valueColor' in card ? card.valueColor : ''}`}>{card.value}</div>
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                   {card.badge && (
-                    <Badge variant="default" className="text-[10px] px-1 py-0 h-4">{card.badge}</Badge>
+                    <Badge variant="default" size="sm">{card.badge}</Badge>
                   )}
                   {card.sub}
                 </p>
@@ -94,7 +142,7 @@ export default function MlOpsDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {experiments.map((exp) => (
+                {metrics?.experiments?.map((exp) => (
                   <TableRow key={exp.id}>
                     <TableCell className="font-medium">{exp.id}</TableCell>
                     <TableCell>{exp.model}</TableCell>
@@ -112,5 +160,6 @@ export default function MlOpsDashboard() {
         </Card>
       </motion.div>
     </motion.div>
+    </ErrorBoundary>
   );
 }

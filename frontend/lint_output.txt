@@ -1,0 +1,67 @@
+
+> frontend@0.1.0 lint E:\Sentinel-AI\frontend
+> eslint
+
+
+E:\Sentinel-AI\frontend\src\components\features\copilot\chat-panel.tsx
+  169:22  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+E:\Sentinel-AI\frontend\src\components\features\copilot\chat-panel.tsx:169:22
+  167 |   const handleSend = async (prompt = input) => {
+  168 |     if (!prompt.trim() || pending) return;
+> 169 |     addMessage({ id: Date.now(), role: 'user', content: prompt });
+      |                      ^^^^^^^^^^ Cannot call impure function
+  170 |     setInput('');
+  171 |     setPending(true);
+  172 |       react-hooks/purity
+  174:23  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+E:\Sentinel-AI\frontend\src\components\features\copilot\chat-panel.tsx:174:23
+  172 |     
+  173 |     // Add loading message
+> 174 |     const loadingId = Date.now() + 1;
+      |                       ^^^^^^^^^^ Cannot call impure function
+  175 |     addMessage({ id: loadingId, role: 'assistant', content: 'Querying Sentinel backend...', pending: true });
+  176 |     
+  177 |     try {          react-hooks/purity
+  186:36  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+E:\Sentinel-AI\frontend\src\components\features\copilot\chat-panel.tsx:186:36
+  184 |         });
+  185 |         addTimelineEvent({
+> 186 |           id: `${caseId}-copilot-${Date.now()}`,
+      |                                    ^^^^^^^^^^ Cannot call impure function
+  187 |           caseId,
+  188 |           type: 'copilot_completed',
+  189 |           title: 'Copilot Analysis Completed',  react-hooks/purity
+
+E:\Sentinel-AI\frontend\src\components\features\investigation\cases-table.tsx
+  97:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+E:\Sentinel-AI\frontend\src\components\features\investigation\cases-table.tsx:97:17
+   95 |   ], []);
+   96 |
+>  97 |   const table = useReactTable({
+      |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+   98 |     data: casesData,
+   99 |     columns,
+  100 |     getCoreRowModel: getCoreRowModel(),  react-hooks/incompatible-library
+
+E:\Sentinel-AI\frontend\src\components\layout\command-palette.tsx
+    3:19  warning  'useEffect' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+  228:6   warning  React Hook useMemo has a missing dependency: 'closeAndRun'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+E:\Sentinel-AI\frontend\src\components\ui\command.tsx
+  26:11  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+Γ£û 7 problems (4 errors, 3 warnings)
+
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.
