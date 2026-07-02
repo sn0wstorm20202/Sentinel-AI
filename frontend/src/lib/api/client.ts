@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create a generic Axios instance
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

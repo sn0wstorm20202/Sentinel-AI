@@ -45,7 +45,7 @@ function formatEvidence(caseData: InvestigationCase) {
   const evidence = caseData.intelligence.evidence ?? [];
   if (evidence.length === 0) {
     const features = Array.from(
-      new Set(caseData.intelligence.fraud_hypotheses.flatMap((hypothesis) => hypothesis.supporting_features))
+      new Set((caseData.intelligence.fraud_hypotheses || (caseData.intelligence as any).hypotheses || []).flatMap((hypothesis: any) => hypothesis.supporting_features))
     );
     return features.length > 0
       ? `Backend did not return SHAP evidence rows, but hypotheses cite these supporting features: ${features.join(', ')}.`
@@ -105,7 +105,7 @@ async function buildCopilotAnswer(caseId: string, prompt: string, selectedNodeId
   }
 
   if (normalizedPrompt.includes('similar fraud patterns') || normalizedPrompt.includes('confidence')) {
-    const hypotheses = caseData.intelligence.fraud_hypotheses;
+    const hypotheses = caseData.intelligence.fraud_hypotheses || (caseData.intelligence as any).hypotheses || [];
     if (hypotheses.length === 0) {
       return 'The backend did not return fraud hypotheses for comparison.';
     }
