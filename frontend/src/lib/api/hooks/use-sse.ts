@@ -26,7 +26,7 @@ export function useSSE() {
   const addTimelineEvent = useInvestigationStore((state) => state.addTimelineEvent);
 
   useEffect(() => {
-    const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/stream`);
+    const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/stream`);
 
     eventSource.onmessage = (event) => {
       try {

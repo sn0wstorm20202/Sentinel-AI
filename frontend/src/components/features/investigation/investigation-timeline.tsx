@@ -101,18 +101,19 @@ function buildBackendTimeline(
     });
   }
 
-  if (evidenceCount > 0 || caseData.intelligence.fraud_hypotheses.length > 0) {
+  const hypothesesList = caseData.intelligence.fraud_hypotheses || (caseData.intelligence as any).hypotheses || [];
+  if (evidenceCount > 0 || hypothesesList.length > 0) {
     events.push({
-      id: `${caseId}-evidence-generated`,
-      caseId,
+      id: `${caseData.metadata.case_id}-evidence`,
+      caseId: caseData.metadata.case_id,
       type: 'evidence_generated',
-      title: 'Evidence Generated',
-      timestamp: addSeconds(generatedAt, 3),
-      actor: { name: 'Evidence Engine', type: 'model' },
-      details: `${evidenceCount} evidence signals and ${caseData.intelligence.fraud_hypotheses.length} fraud hypotheses are available for analyst review.`,
+      title: 'Automated Intelligence Generation',
+      timestamp: new Date(new Date(caseData.metadata.generated_at).getTime() + 1000).toISOString(),
+      actor: { name: 'Decision Engine', type: 'system' },
+      details: `${evidenceCount} evidence signals and ${hypothesesList.length} fraud hypotheses are available for analyst review.`,
       metadata: {
         evidence: evidenceCount,
-        hypotheses: caseData.intelligence.fraud_hypotheses.length,
+        hypotheses: hypothesesList.length,
       },
     });
   }
