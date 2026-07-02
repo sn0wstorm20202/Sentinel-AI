@@ -1,20 +1,16 @@
-"use no memo";
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   Row,
 } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 
 interface MockCase {
@@ -32,66 +28,67 @@ const mockCases: MockCase[] = [
   { id: 'CASE_48195', txId: 'TXN_884912', date: '2026-06-30T14:20:00Z', risk: 'High', score: 88.1, status: 'Open' },
   { id: 'CASE_48196', txId: 'TXN_884913', date: '2026-07-01T09:10:00Z', risk: 'Critical', score: 95.5, status: 'Open' },
   { id: 'CASE_48197', txId: 'TXN_884914', date: '2026-07-01T10:30:00Z', risk: 'Low', score: 25.0, status: 'Closed' },
+  { id: 'CASE_48198', txId: 'TXN_884915', date: '2026-07-02T10:45:02Z', risk: 'Critical', score: 91.2, status: 'Open' },
+  { id: 'CASE_48199', txId: 'TXN_884916', date: '2026-07-02T11:15:00Z', risk: 'Elevated', score: 72.4, status: 'Investigating' },
+  { id: 'CASE_48200', txId: 'TXN_884917', date: '2026-07-02T14:20:00Z', risk: 'High', score: 82.1, status: 'Open' },
+  { id: 'CASE_48201', txId: 'TXN_884918', date: '2026-07-03T09:10:00Z', risk: 'Critical', score: 99.5, status: 'Open' },
+  { id: 'CASE_48202', txId: 'TXN_884919', date: '2026-07-03T10:30:00Z', risk: 'Low', score: 15.0, status: 'Closed' },
 ];
 
 export function CasesTable() {
   const router = useRouter();
+  const params = useParams();
+  const selectedId = params?.id as string | undefined;
   const [sorting, setSorting] = useState<SortingState>([]);
   
   const columns = [
-    { accessorKey: 'id', header: 'Case ID' },
-    { accessorKey: 'txId', header: 'Transaction ID' },
     { 
-      accessorKey: 'date', 
-      header: 'Generated At',
-      cell: ({ row }: { row: Row<MockCase> }) => new Date(row.getValue('date')).toLocaleString()
+      accessorKey: 'id', 
+      header: 'ID',
+      cell: ({ row }: { row: Row<MockCase> }) => <span className="font-mono text-xs">{row.getValue('id')}</span>
     },
     { 
-      accessorKey: 'risk', 
-      header: 'Risk Tier',
+      accessorKey: 'score', 
+      header: 'Score',
       cell: ({ row }: { row: Row<MockCase> }) => {
-        const val = row.getValue('risk') as string;
-        const variant = val === 'Critical' ? 'destructive' : val === 'High' ? 'default' : 'secondary';
-        return <Badge variant={variant}>{val}</Badge>;
+        const s = row.getValue('score') as number;
+        return (
+          <span className={`font-mono text-xs font-semibold ${s > 90 ? 'text-destructive' : s > 80 ? 'text-orange-500' : 'text-muted-foreground'}`}>
+            {s.toFixed(1)}
+          </span>
+        );
       }
     },
-    { accessorKey: 'score', header: 'Risk Score' },
-    { accessorKey: 'status', header: 'Status' },
-    {
-      id: 'actions',
+    { 
+      accessorKey: 'status', 
+      header: 'Status',
       cell: ({ row }: { row: Row<MockCase> }) => (
-        <Button variant="ghost" size="sm" onClick={(e) => {
-          e.stopPropagation();
-          router.push(`/cases/${row.getValue('id')}`);
-        }}>
-          Investigate
-        </Button>
+        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{row.getValue('status')}</span>
       )
     }
   ];
-  // eslint-disable-next-line react-hooks/incompatible-library
+
   const table = useReactTable({
     data: mockCases,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
     state: { sorting }
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <Input placeholder="Filter cases..." className="max-w-sm" />
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="p-2 border-b shrink-0 bg-background">
+        <Input placeholder="Filter (Cmd+K)..." className="h-7 text-xs bg-muted/50 focus-visible:ring-1" />
       </div>
-      <div className="rounded-md border bg-card">
-        <Table>
-          <TableHeader>
+      <div className="flex-1 overflow-auto bg-card">
+        <Table className="w-full text-xs">
+          <TableHeader className="bg-muted/30 sticky top-0 z-10">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="hover:bg-transparent border-b">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="h-7 py-1 px-2 font-medium text-muted-foreground">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -105,20 +102,23 @@ export function CasesTable() {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="cursor-pointer hover:bg-muted/50 transition-colors"
-                  onClick={() => router.push(`/cases/${row.getValue('id')}`)}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const isSelected = selectedId === row.getValue('id');
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={isSelected && "selected"}
+                    className={`cursor-pointer transition-none border-b border-border/50 ${isSelected ? 'bg-primary/10 hover:bg-primary/15' : 'hover:bg-muted/50'}`}
+                    onClick={() => router.push(`/cases/${row.getValue('id')}`)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className="py-1.5 px-2">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
@@ -128,24 +128,6 @@ export function CasesTable() {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
       </div>
     </div>
   );
