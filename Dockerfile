@@ -40,7 +40,6 @@ COPY knowledge/ /app/knowledge/
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV WORKERS=4
-ENV PORT=8000
 
 # Chown all files to non-root user
 RUN chown -R sentinel:sentinel /app
@@ -53,7 +52,7 @@ EXPOSE 8000
 
 # Health check (will rely on /live endpoint)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8000/live || exit 1
+    CMD curl -f http://localhost:${PORT:-8000}/live || exit 1
 
 # Graceful start via Gunicorn with Uvicorn workers
-CMD ["sh", "-c", "gunicorn src.api.InvestigatorAPI:app -w ${WORKERS} -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT} --access-logfile - --error-logfile -"]
+CMD ["sh", "-c", "gunicorn src.api.InvestigatorAPI:app -w ${WORKERS:-4} -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT:-8000} --access-logfile - --error-logfile -"]
