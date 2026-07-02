@@ -128,10 +128,9 @@ export default function CaseDetailsPage() {
       </div>
 
       {/* Detail Content */}
-      {/* @ts-expect-error autoSaveId is used by react-resizable-panels 4.x */}
-      <ResizablePanelGroup orientation="horizontal" autoSaveId={`sentinel-case-${caseId}-panels`} className="flex-1 overflow-hidden">
+      <ResizablePanelGroup orientation="horizontal" className="flex-1 overflow-hidden">
         {/* Left Side: Hypothesis */}
-        <ResizablePanel defaultSize={30} minSize={22} maxSize={45} className="border-r bg-muted/5 flex flex-col h-full shrink-0">
+        <ResizablePanel defaultSize={30} minSize={15} maxSize={85} className="border-r bg-muted/5 flex flex-col h-full">
           <HypothesisPanel caseData={caseData} />
         </ResizablePanel>
 
@@ -151,17 +150,17 @@ export default function CaseDetailsPage() {
                 <TabsTrigger value="timeline" className="h-6 gap-1.5 text-xs px-2"><Clock3 className="h-3 w-3" /> Timeline</TabsTrigger>
               </TabsList>
             </div>
-            <TabsContent value="graph" className="flex-1 p-0 m-0 overflow-hidden data-[state=active]:flex">
+            <TabsContent value="graph" className="flex-1 w-full flex-col p-0 m-0 overflow-hidden data-[state=active]:flex">
               <ErrorBoundary name="Graph">
                 <NetworkGraph data={graphData} />
               </ErrorBoundary>
             </TabsContent>
-            <TabsContent value="evidence" className="flex-1 p-0 m-0 overflow-auto bg-card" data-sentinel-evidence tabIndex={-1}>
+            <TabsContent value="evidence" className="flex-1 w-full flex-col p-0 m-0 overflow-auto bg-card data-[state=active]:flex" data-sentinel-evidence tabIndex={-1}>
               <ErrorBoundary name="Evidence">
                 <EvidenceBoard caseData={caseData} />
               </ErrorBoundary>
             </TabsContent>
-            <TabsContent value="timeline" className="flex-1 p-0 m-0 overflow-hidden bg-card">
+            <TabsContent value="timeline" className="flex-1 w-full flex-col p-0 m-0 overflow-hidden bg-card data-[state=active]:flex">
               <ErrorBoundary name="Timeline">
                 <InvestigationTimeline caseData={caseData} graphData={graphData} />
               </ErrorBoundary>

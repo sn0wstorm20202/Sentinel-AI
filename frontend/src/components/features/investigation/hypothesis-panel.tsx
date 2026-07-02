@@ -73,27 +73,37 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
           Generated Hypotheses
         </motion.h3>
         <motion.div className="space-y-3" variants={staggerContainerFast}>
-          {intelligence.fraud_hypotheses.map((hyp, i) => (
-            <motion.div key={i} variants={fadeUpItem} style={{ willChange: 'opacity, transform' }}>
-              <Card>
-                <CardContent>
-                  <div className="flex justify-between items-start mb-2">
-                    <p className="font-semibold">{hyp.name}</p>
-                    <Badge variant={hyp.confidence > 0.6 ? "default" : "secondary"}>
-                      {(hyp.confidence * 100).toFixed(0)}% Conf
-                    </Badge>
-                  </div>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {hyp.supporting_features.map(feat => (
-                      <Badge key={feat} variant="outline" size="sm" className="text-muted-foreground bg-muted/50">
-                        {feat}
+          {(() => {
+            const hyps = intelligence.fraud_hypotheses || (intelligence as any).hypotheses || [];
+            if (hyps.length === 0) {
+              return (
+                <motion.div variants={fadeUpItem} className="p-4 text-center text-sm text-muted-foreground border rounded-md bg-muted/20">
+                  No fraud hypotheses generated for this case.
+                </motion.div>
+              );
+            }
+            return hyps.map((hyp: any, i: number) => (
+              <motion.div key={i} variants={fadeUpItem} style={{ willChange: 'opacity, transform' }}>
+                <Card>
+                  <CardContent>
+                    <div className="flex justify-between items-start mb-2">
+                      <p className="font-semibold">{hyp.name}</p>
+                      <Badge variant={hyp.confidence > 0.6 ? "default" : "secondary"}>
+                        {(hyp.confidence * 100).toFixed(0)}% Conf
                       </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+                    </div>
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {hyp.supporting_features?.map((feat: string) => (
+                        <Badge key={feat} variant="outline" size="sm" className="text-muted-foreground bg-muted/50">
+                          {feat}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ));
+          })()}
         </motion.div>
       </div>
 
@@ -106,22 +116,32 @@ export function HypothesisPanel({ caseData }: HypothesisPanelProps) {
           Recommended Actions
         </motion.h3>
         <motion.div className="space-y-3" variants={staggerContainerFast}>
-          {(action_engine.recommendations || action_engine.recommended_actions || []).map((action, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUpItem}
-              className="flex gap-3 p-3 rounded-md bg-muted/30 border"
-              style={{ willChange: 'opacity, transform' }}
-            >
-              <div className="flex-shrink-0 mt-0.5">
-                <AlertTriangle className="h-4 w-4 text-amber-500" />
-              </div>
-              <div>
-                <p className="font-medium text-sm">{action.action}</p>
-                <p className="text-xs text-muted-foreground mt-1">{action.reason}</p>
-              </div>
-            </motion.div>
-          ))}
+          {(() => {
+            const recs = action_engine.recommendations || action_engine.recommended_actions || [];
+            if (recs.length === 0) {
+              return (
+                <motion.div variants={fadeUpItem} className="p-4 text-center text-sm text-muted-foreground border rounded-md bg-muted/20">
+                  No recommended actions provided by the engine.
+                </motion.div>
+              );
+            }
+            return recs.map((action: any, i: number) => (
+              <motion.div
+                key={i}
+                variants={fadeUpItem}
+                className="flex gap-3 p-3 rounded-md bg-muted/30 border"
+                style={{ willChange: 'opacity, transform' }}
+              >
+                <div className="flex-shrink-0 mt-0.5">
+                  <AlertTriangle className="h-4 w-4 text-amber-500" />
+                </div>
+                <div>
+                  <p className="font-medium text-sm">{action.action}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{action.reason}</p>
+                </div>
+              </motion.div>
+            ));
+          })()}
         </motion.div>
       </div>
     </motion.div>

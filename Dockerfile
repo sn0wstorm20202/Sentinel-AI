@@ -35,6 +35,7 @@ COPY data/ /app/data/
 COPY models/ /app/models/
 COPY configs/ /app/configs/
 COPY knowledge/ /app/knowledge/
+COPY reports/ /app/reports/
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
