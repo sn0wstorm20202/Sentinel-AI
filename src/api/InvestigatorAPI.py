@@ -6,6 +6,39 @@ import time
 
 from ..copilot.SentinelOrchestrator import SentinelOrchestrator
 from .GraphAPI import router as graph_router
+from .CasesAPI import router as cases_router
+from .MLOpsAPI import router as mlops_router
+from .SSEAPI import router as sse_router
+import logging
+import json
+import uuid
+
+# Structured Logging Setup
+class JSONLogFormatter(logging.Formatter):
+    def format(self, record):
+        log_record = {
+            "timestamp": self.formatTime(record, self.datefmt),
+            "level": record.levelname,
+            "message": record.getMessage(),
+            "component": getattr(record, "component", "backend")
+        }
+        if hasattr(record, "request_id"):
+            log_record["request_id"] = record.request_id
+        if hasattr(record, "trace_id"):
+            log_record["trace_id"] = record.trace_id
+        if hasattr(record, "latency"):
+            log_record["latency"] = record.latency
+        if hasattr(record, "status_code"):
+            log_record["status_code"] = record.status_code
+        if record.exc_info:
+            log_record["exc_info"] = self.formatException(record.exc_info)
+        return json.dumps(log_record)
+
+logger = logging.getLogger("sentinel")
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setFormatter(JSONLogFormatter())
+logger.addHandler(handler)
 
 app = FastAPI(
     title="Sentinel Investigator API",
@@ -29,19 +62,46 @@ def verify_token(request: Request):
         pass # valid
     # In production, we'd raise 401. For RC-1, we placeholder it.
 
-# Rate Limiting Placeholder Middleware
+# Structured Logging and Rate Limiting Middleware
 @app.middleware("http")
-async def rate_limit_middleware(request: Request, call_next):
-    # Mock rate limiting: tracking IP requests
+async def logging_middleware(request: Request, call_next):
+    request_id = str(uuid.uuid4())
+    trace_id = request.headers.get("X-Trace-Id", str(uuid.uuid4()))
     start_time = time.time()
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
-    response.headers["X-RateLimit-Limit"] = "100"
-    return response
+    
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+    except Exception as e:
+        status_code = 500
+        logger.error(f"Request failed: {str(e)}", extra={"request_id": request_id, "trace_id": trace_id, "exc_info": True})
+        raise e
+    finally:
+        latency = (time.time() - start_time) * 1000  # ms
+        
+        # Avoid logging noisy health checks constantly
+        if request.url.path not in ["/health", "/live", "/ready"]:
+            logger.info(
+                f"{request.method} {request.url.path}",
+                extra={
+                    "request_id": request_id,
+                    "trace_id": trace_id,
+                    "latency": latency,
+                    "status_code": status_code,
+                    "component": "api"
+                }
+            )
+        
+    if 'response' in locals():
+        response.headers["X-Request-ID"] = request_id
+        response.headers["X-Process-Time"] = str(latency)
+        return response
 
 # Mount Graph Intelligence routes
 app.include_router(graph_router, dependencies=[Depends(verify_token)])
+app.include_router(cases_router, dependencies=[Depends(verify_token)])
+app.include_router(mlops_router, dependencies=[Depends(verify_token)])
+app.include_router(sse_router, dependencies=[Depends(verify_token)])
 
 # Initialize Orchestrator globally
 # Note: Paths adjusted assuming running from root directory.
@@ -58,9 +118,20 @@ class TransactionRequest(BaseModel):
     features: Dict[str, Any]
 
 
-@app.get("/")
+@app.get("/health")
 def health_check():
-    return {"status": "Sentinel Investigator API is running."}
+    return {"status": "ok", "service": "sentinel-api"}
+
+@app.get("/live")
+def liveness_check():
+    return {"status": "alive"}
+
+@app.get("/ready")
+def readiness_check():
+    # In production, check DB/Redis connections here
+    if orchestrator is not None:
+        return {"status": "ready"}
+    raise HTTPException(status_code=503, detail="Orchestrator not loaded")
 
 
 @app.post("/api/v1/cases/explain")

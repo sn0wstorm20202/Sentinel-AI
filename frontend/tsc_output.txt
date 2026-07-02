@@ -1,0 +1,12 @@
+src/app/(dashboard)/cases/[id]/page.tsx(130,53): error TS2322: Type '{ children: Element[]; orientation: "horizontal"; autoSaveId: string; className: string; }' is not assignable to type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'.
+  Property 'autoSaveId' does not exist on type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'. Did you mean 'autoSave'?
+src/app/(dashboard)/cases/layout.tsx(11,79): error TS2322: Type '{ children: Element[]; orientation: "horizontal"; className: string; autoSaveId: string; }' is not assignable to type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'.
+  Property 'autoSaveId' does not exist on type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'. Did you mean 'autoSave'?
+src/app/(dashboard)/layout.tsx(41,57): error TS2322: Type '{ children: Element[]; orientation: "horizontal"; autoSaveId: string; }' is not assignable to type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'.
+  Property 'autoSaveId' does not exist on type 'IntrinsicAttributes & HTMLAttributes<HTMLDivElement> & { children?: ReactNode; className?: string | undefined; ... 10 more ...; style?: CSSProperties | undefined; }'. Did you mean 'autoSave'?
+src/components/layout/command-palette.tsx(245,6): error TS2322: Type '{ children: Element[]; open: boolean; onOpenChange: (open: boolean) => void; filter: (value: string, search: string) => number; }' is not assignable to type 'IntrinsicAttributes & CommandDialogProps'.
+  Property 'children' does not exist on type 'IntrinsicAttributes & CommandDialogProps'.
+src/components/ui/command.tsx(4,34): error TS2307: Cannot find module '@radix-ui/react-dialog' or its corresponding type declarations.
+src/components/ui/command.tsx(28,26): error TS2339: Property 'children' does not exist on type 'CommandDialogProps'.
+src/lib/api/hooks/use-sse.ts(95,13): error TS2322: Type 'TimelineEventType | undefined' is not assignable to type 'TimelineEventType'.
+  Type 'undefined' is not assignable to type 'TimelineEventType'.

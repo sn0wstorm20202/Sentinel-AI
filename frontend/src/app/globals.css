@@ -123,9 +123,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    color-scheme: light dark;
   }
   html {
     @apply font-sans;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -142,5 +150,23 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+
+  button,
+  a,
+  input,
+  [role="button"],
+  [tabindex] {
+    outline-color: CanvasText;
+  }
+
+  .react-flow__edge-path {
+    stroke: CanvasText;
   }
 }
