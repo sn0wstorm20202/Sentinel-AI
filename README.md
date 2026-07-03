@@ -1,3 +1,13 @@
+---
+title: Sentinel AI Backend
+emoji: 🛡️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+app_port: 7860
+---
+
 # Sentinel AI: Enterprise Fraud Intelligence Platform
 
 Sentinel AI is an end-to-end financial fraud detection and intelligence platform. It bridges the gap between raw transaction data, advanced machine learning, and actionable human intelligence. 

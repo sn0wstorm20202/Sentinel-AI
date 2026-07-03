@@ -19,8 +19,8 @@ WORKDIR /app
 # Install curl for healthcheck
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user with home directory
-RUN groupadd -r sentinel && useradd -m -r -g sentinel -d /home/sentinel sentinel
+# Create non-root user with UID 1000 for Hugging Face Spaces
+RUN useradd -m -u 1000 user
 
 # Copy wheels from builder
 COPY --from=builder /app/wheels /wheels
@@ -41,7 +41,7 @@ COPY reports/ /app/reports/
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV WORKERS=4
-ENV HOME=/home/sentinel
+ENV HOME=/home/user
 ENV XDG_CACHE_HOME=/tmp/.cache
 ENV MPLCONFIGDIR=/tmp/matplotlib
 ENV NUMBA_CACHE_DIR=/tmp/numba_cache
@@ -49,17 +49,17 @@ ENV HF_HOME=/tmp/huggingface
 ENV TORCH_HOME=/tmp/torch
 
 # Chown all files to non-root user
-RUN chown -R sentinel:sentinel /app
+RUN chown -R user:user /app
 
 # Switch to non-root user
-USER sentinel
+USER user
 
 # Expose port
-EXPOSE 8000
+EXPOSE 7860
 
 # Health check (will rely on /live endpoint)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-8000}/live || exit 1
+    CMD curl -f http://localhost:${PORT:-7860}/live || exit 1
 
 # Graceful start via Gunicorn with Uvicorn workers
-CMD ["sh", "-c", "gunicorn src.api.InvestigatorAPI:app -w ${WORKERS:-4} -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT:-8000} --access-logfile - --error-logfile -"]
+CMD ["sh", "-c", "gunicorn src.api.InvestigatorAPI:app -w ${WORKERS:-4} -k uvicorn.workers.UvicornWorker -b 0.0.0.0:${PORT:-7860} --access-logfile - --error-logfile - --timeout 120"]
