@@ -1,0 +1,13 @@
+{
+    "shape": [
+        9082,
+        536
+    ],
+    "missing_values": 0,
+    "target_column": "F3924",
+    "fraud_count": 81,
+    "legit_count": 9001,
+    "imbalance_ratio": 111.12,
+    "object_columns": 0,
+    "duplicates": 0
+}

@@ -1,0 +1,47 @@
+{
+  "policies": [
+    {
+      "rule_id": "AML-41B",
+      "condition": {
+        "min_risk_tier": "Critical",
+        "fraud_typology": "Dormant Account Abuse"
+      },
+      "recommended_actions": [
+        {
+          "priority": 1,
+          "action": "Temporary Hold",
+          "reason": "Critical risk score and strong supporting evidence for account abuse."
+        },
+        {
+          "priority": 2,
+          "action": "Request KYC Update",
+          "reason": "Standard protocol for reactivation of dormant accounts."
+        },
+        {
+          "priority": 3,
+          "action": "Escalate to Tier-2 Investigator",
+          "reason": "Required for cases with risk scores exceeding 95%."
+        }
+      ]
+    },
+    {
+      "rule_id": "AML-12A",
+      "condition": {
+        "min_risk_tier": "High",
+        "fraud_typology": "Account Takeover (ATO)"
+      },
+      "recommended_actions": [
+        {
+          "priority": 1,
+          "action": "Block Online Access",
+          "reason": "High probability of active unauthorized access."
+        },
+        {
+          "priority": 2,
+          "action": "Trigger OTP Verification",
+          "reason": "Verify identity via registered mobile device."
+        }
+      ]
+    }
+  ]
+}

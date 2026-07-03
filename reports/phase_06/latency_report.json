@@ -1,0 +1,9 @@
+{
+  "decision_engine_ms": 109.64,
+  "shap_engine_ms": 13.62,
+  "evidence_engine_ms": 0.34,
+  "hypothesis_engine_ms": 0.06,
+  "recommendation_engine_ms": 0.06,
+  "nlg_engine_ms": 0.04,
+  "total_pipeline_ms": 123.76
+}
