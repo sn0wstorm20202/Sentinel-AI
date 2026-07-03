@@ -9,12 +9,12 @@ services:
     container_name: sentinel_backend
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "7860:7860"
     environment:
       - WORKERS=4
-      - PORT=8000
+      - PORT=7860
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/live"]
+      test: ["CMD", "curl", "-f", "http://localhost:7860/live"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -32,7 +32,7 @@ services:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8080
-      - BACKEND_URL=http://backend:8000
+      - BACKEND_URL=http://backend:7860
     depends_on:
       backend:
         condition: service_healthy
