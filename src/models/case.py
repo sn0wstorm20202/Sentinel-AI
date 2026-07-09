@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 from .evidence import Evidence
 from .hypothesis import Hypothesis
@@ -26,7 +26,7 @@ class InvestigationCase:
     natural_language_summary: Optional[str] = None
     engine_version: str = "4.0"
     generated_at: str = field(
-        default_factory=lambda: datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
     )
 
     def to_dict(self) -> dict:

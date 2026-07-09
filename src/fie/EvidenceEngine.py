@@ -28,7 +28,10 @@ class EvidenceEngine:
             importance = float(vals[idx])
             direction = "positive" if importance > 0 else "negative"
 
-            # Simulated confidence metric based on relative magnitude vs total magnitude
+            # Relative contribution weight: this feature's |SHAP| as a share of
+            # the total |SHAP| magnitude for the transaction (scaled, capped 0.99).
+            # This is a derived importance weight, not a statistical confidence
+            # interval.
             total_abs = np.sum(np.abs(vals))
             confidence = round(
                 abs(importance) / (total_abs + 1e-9) * 2.0, 4
