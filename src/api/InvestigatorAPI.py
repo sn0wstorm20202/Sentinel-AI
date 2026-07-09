@@ -145,8 +145,20 @@ def explain_case(req: TransactionRequest):
         )
         # Enforce JSON Contract via the Case object serialization
         return case.to_dict()
+    except ValueError as e:
+        # Malformed / irrelevant feature payload — this is a client error, not a
+        # server fault. Return a clean 400 instead of leaking a raw stack trace.
+        raise HTTPException(status_code=400, detail=str(e))
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(
+            f"Live inference failed: {e}",
+            extra={"component": "explain", "exc_info": True},
+        )
+        raise HTTPException(
+            status_code=500, detail="Internal error during fraud inference."
+        )
 
 
 # Example usage to run: uvicorn src.api.InvestigatorAPI:app --reload
