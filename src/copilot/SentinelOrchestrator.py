@@ -1,4 +1,3 @@
-import pandas as pd
 from typing import Dict, Any
 
 from ..engine.FraudDecisionEngine import FraudDecisionEngine
@@ -42,7 +41,12 @@ class SentinelOrchestrator:
         """
         Orchestrates the full pipeline from raw data to a fully reasoned Investigation Case.
         """
-        df = pd.DataFrame([transaction_data])
+        # Align the raw payload to the champion model's exact 535-feature schema.
+        # This is the single source of truth for both scoring and SHAP so the two
+        # can never diverge, and it makes the endpoint robust to unordered or
+        # partial payloads (raises ValueError for empty/irrelevant payloads, which
+        # the API layer maps to a 400 Bad Request instead of a raw 500).
+        df = self.decision_engine.align_features(transaction_data)
 
         # Step 1: Decision Engine Inference
         prob = float(self.decision_engine.model.predict_proba(df)[0, 1])

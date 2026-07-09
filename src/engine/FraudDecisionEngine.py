@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import shap
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,6 +33,48 @@ class FraudDecisionEngine:
             policy = json.load(f)
             self.optimal_threshold = policy["optimal_threshold"]
 
+        # Cache the exact feature schema the champion model was trained on.
+        # The model was trained on 535 named features and requires that exact
+        # set (and order) at inference time. We use this to align raw incoming
+        # payloads instead of trusting the caller to send a perfectly shaped dict.
+        if hasattr(self.model, "feature_names_in_"):
+            self.expected_features = [str(f) for f in self.model.feature_names_in_]
+        else:
+            self.expected_features = None
+
+    def align_features(self, transaction_data: dict) -> pd.DataFrame:
+        """
+        Align a raw transaction dict to the champion model's expected feature
+        schema. This makes inference robust to real-world payloads that arrive
+        unordered, incomplete, or with extra keys.
+
+        - Unknown keys are ignored.
+        - Missing expected features are filled with NaN (XGBoost handles missing
+          values natively) so a slightly incomplete payload still scores.
+        - Non-numeric values are coerced to NaN rather than crashing the model.
+        - A payload containing NONE of the expected features is rejected with a
+          ValueError so the API can return a clean 400 instead of a raw 500.
+        """
+        if self.expected_features is None:
+            # No known schema (unexpected model type) — pass through unchanged.
+            return pd.DataFrame([transaction_data])
+
+        known = {
+            k: v for k, v in transaction_data.items() if k in set(self.expected_features)
+        }
+        if not known:
+            raise ValueError(
+                "Transaction payload contains none of the model's expected "
+                f"features (expected {len(self.expected_features)} feature columns "
+                "such as 'F3898', 'F1813', ...). Received keys: "
+                f"{list(transaction_data.keys())[:10]}"
+            )
+
+        row = {f: known.get(f, np.nan) for f in self.expected_features}
+        df = pd.DataFrame([row], columns=self.expected_features)
+        # Coerce everything to numeric; un-parseable values become NaN (missing).
+        return df.apply(pd.to_numeric, errors="coerce")
+
     def _assign_risk_tier(self, probability):
         if probability >= 0.90:
             return (
@@ -59,7 +101,7 @@ class FraudDecisionEngine:
         """
         Process a single transaction through the Fraud Decision Engine.
         """
-        df = pd.DataFrame([transaction_data])
+        df = self.align_features(transaction_data)
 
         # 1. Probability Calibration
         probability = self.model.predict_proba(df)[0, 1]
@@ -105,7 +147,7 @@ class FraudDecisionEngine:
             "Review_Status": review_status,
             "Business_Recommendation": recommendation,
             "Natural_Language_Explanation": natural_explanation,
-            "Timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+            "Timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
             "Engine_Version": "3.0",
         }
 
