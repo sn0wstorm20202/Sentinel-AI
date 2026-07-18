@@ -92,7 +92,7 @@ def bootstrap_models(models_dir: Path, data_dir: Path):
 
     # Identify target column
     target_col = None
-    for candidate in ["fraud_bool", "is_fraud", "target", "label", "fraud"]:
+    for candidate in ["fraud_bool", "is_fraud", "target", "label", "fraud", "F3924"]:
         if candidate in df.columns:
             target_col = candidate
             break
@@ -138,9 +138,9 @@ def bootstrap_models(models_dir: Path, data_dir: Path):
     )
     base_model.fit(X_train, y_train, eval_set=[(X_cal, y_cal)], verbose=False)
 
-    logger.info("Calibrating with CalibratedClassifierCV...")
-    calibrated_model = CalibratedClassifierCV(base_model, cv="prefit", method="sigmoid")
-    calibrated_model.fit(X_cal, y_cal)
+    # CalibratedClassifierCV fails in sklearn 1.6+ with XGBoost, so we just use base_model.
+    # The API only needs predict_proba() and feature_names_in_.
+    calibrated_model = base_model
 
     # Verify the model has feature_names_in_
     if not hasattr(calibrated_model, "feature_names_in_"):

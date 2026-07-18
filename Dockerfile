@@ -36,7 +36,6 @@ COPY models/ /app/models/
 COPY configs/ /app/configs/
 COPY knowledge/ /app/knowledge/
 COPY reports/ /app/reports/
-COPY scripts/bootstrap_models.py /app/scripts/bootstrap_models.py
 
 
 # Set environment variables
