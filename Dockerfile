@@ -38,9 +38,6 @@ COPY knowledge/ /app/knowledge/
 COPY reports/ /app/reports/
 COPY scripts/bootstrap_models.py /app/scripts/bootstrap_models.py
 
-# Bootstrap model artifacts if they don't exist
-# This trains a real CalibratedClassifierCV + SHAP explainer from the training data
-RUN python /app/scripts/bootstrap_models.py
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
