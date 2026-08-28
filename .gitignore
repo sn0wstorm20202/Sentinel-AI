@@ -54,3 +54,11 @@ artifacts/*
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# Nested Hugging Face Space clone — a separate repo, not a submodule.
+# Never commit this as a gitlink: it has no .gitmodules entry and its commits
+# only exist in the Space remote, so a fresh clone cannot resolve them.
+/Sentinel-AI/
+
+# Local scratch request payloads
+/payload.json
