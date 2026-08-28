@@ -1,0 +1,54 @@
+name: Deploy to Hugging Face Space
+
+# Mirrors main to the Sentinel AI backend Space (Docker SDK, port 7860).
+# Before this can run, add a repo secret named HF_TOKEN:
+#   GitHub -> Settings -> Secrets and variables -> Actions -> New repository secret
+# The token must be a Hugging Face *write* token from
+# https://huggingface.co/settings/tokens with access to spaces/prayas05/Sentinel-AI.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never let two deploys race on the Space remote.
+concurrency:
+  group: hf-space-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out full history with LFS objects
+        uses: actions/checkout@v4
+        with:
+          # The Space push needs real history, not a shallow clone.
+          fetch-depth: 0
+          # The large dataset CSVs are LFS-tracked; without this they would
+          # push as pointer files and the Space build would read empty data.
+          lfs: true
+
+      - name: Fetch LFS objects
+        run: git lfs fetch --all origin
+
+      - name: Fail early if a phantom submodule crept back in
+        run: |
+          gitlinks=$(git ls-files -s | awk '$1 == "160000" { print $4 }')
+          if [ -n "$gitlinks" ] && [ ! -f .gitmodules ]; then
+            echo "::error::Gitlink present with no .gitmodules — refusing to deploy a broken submodule to the Space."
+            echo "$gitlinks" | sed 's/^/  offending path: /'
+            exit 1
+          fi
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "::error::HF_TOKEN secret is not set — add it in repo Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+          git push --force \
+            "https://prayas05:$HF_TOKEN@huggingface.co/spaces/prayas05/Sentinel-AI" \
+            HEAD:refs/heads/main
