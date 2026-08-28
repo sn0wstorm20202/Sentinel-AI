@@ -21,7 +21,12 @@ import { cn } from '@/lib/utils';
 
 interface InvestigationTimelineProps {
   caseData: InvestigationCase;
-  graphData: GraphNetwork;
+  /**
+   * Optional. The graph is served from a separate endpoint and is not required
+   * for the activity log to be useful — when it is absent the "Graph Generated"
+   * entry is simply omitted rather than the whole log failing to render.
+   */
+  graphData?: GraphNetwork;
 }
 
 const iconMap: Record<TimelineEventType, React.ElementType> = {
@@ -44,7 +49,7 @@ function addSeconds(timestamp: string, seconds: number) {
 
 function buildBackendTimeline(
   caseData: InvestigationCase,
-  graphData: GraphNetwork,
+  graphData: GraphNetwork | undefined,
   caseStatus?: string
 ): TimelineEvent[] {
   const caseId = caseData.metadata.case_id;
@@ -85,7 +90,7 @@ function buildBackendTimeline(
     },
   ];
 
-  if (graphData.nodes.length > 0) {
+  if (graphData && graphData.nodes.length > 0) {
     events.push({
       id: `${caseId}-graph-generated`,
       caseId,
@@ -101,7 +106,11 @@ function buildBackendTimeline(
     });
   }
 
-  const hypothesesList = caseData.intelligence.fraud_hypotheses || (caseData.intelligence as any).hypotheses || [];
+  // `hypotheses` is the key the API actually emits; `fraud_hypotheses` is only a
+  // legacy alias kept for older precomputed phase artifacts. Reading the alias
+  // first meant live cases always saw an empty list.
+  const hypothesesList =
+    caseData.intelligence.hypotheses ?? caseData.intelligence.fraud_hypotheses ?? [];
   if (evidenceCount > 0 || hypothesesList.length > 0) {
     events.push({
       id: `${caseData.metadata.case_id}-evidence`,

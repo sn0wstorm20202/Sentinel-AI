@@ -7,8 +7,6 @@ export interface CaseSummary {
   status: string;
 }
 
-export type InvestigationTab = 'graph' | 'evidence' | 'timeline';
-
 export type TimelineEventType =
   | 'case_created'
   | 'model_scored'
@@ -32,6 +30,15 @@ export interface TimelineEvent {
   };
   details: string;
   metadata?: Record<string, string | number | boolean | null>;
+}
+
+export interface Hypothesis {
+  name?: string;
+  typology?: string;
+  confidence?: number;
+  supporting_features?: string[];
+  description?: string;
+  [key: string]: unknown;
 }
 
 export interface InvestigationCase {
@@ -59,14 +66,21 @@ export interface InvestigationCase {
       entity_id?: string;
       associated_node_id?: string;
     }>;
-    fraud_hypotheses: Array<{
-      name: string;
-      confidence: number;
-      supporting_features: string[];
-    }>;
-    natural_language_summary: string | {
-      hypothesis_explanation: string;
-    };
+    /**
+     * The backend sends `hypotheses` (see `HypothesisEngine` and the
+     * `InvestigationCase.to_dict()` contract). This interface previously
+     * declared `fraud_hypotheses`, a key the API never emits, so every
+     * hypothesis consumer in the UI was reading `undefined` and silently
+     * rendering nothing. Kept as an optional alias only so older precomputed
+     * phase artifacts still typecheck.
+     */
+    hypotheses?: Hypothesis[];
+    /** Legacy alias. Same shape, so consumers can fall back without a cast. */
+    fraud_hypotheses?: Hypothesis[];
+    natural_language_summary?: string | {
+      hypothesis_explanation?: string;
+      [key: string]: unknown;
+    } | null;
   };
   action_engine: {
     recommendations?: Array<{

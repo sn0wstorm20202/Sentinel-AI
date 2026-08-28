@@ -4,117 +4,195 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ---------------------------------------------------------------------------
+ * SENTINEL AI — "cold instrument, hot signal"
+ *
+ * One rule governs this entire palette: COLOUR MEANS RISK. Nothing else earns
+ * it. The chrome — surfaces, borders, buttons, links, focus rings, charts — is
+ * a desaturated blue-slate ramp. The only chromatic pixels on any screen are
+ * the four risk tiers, which sit on a thermal cool-to-hot scale:
+ *
+ *   APPROVE   signal  #22D3A5   cold   — cleared, no action
+ *   ELEVATED  watch   #F2B233   warm   — monitor
+ *   HIGH      act     #FF6A3D   hot    — investigate now
+ *   CRITICAL  alarm   #FF2E63   searing — freeze
+ *
+ * Consequence: if an analyst sees colour, it is telling them about risk. A
+ * grey screen is a quiet screen.
+ * ------------------------------------------------------------------------- */
+
 @theme inline {
+  /* Type roles: display for numerals + headings, sans for dense data,
+   * mono for identifiers, hashes and feature codes (ledger vernacular). */
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-display);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /*
+   * One step quieter than --muted-foreground, and still readable.
+   *
+   * This exists because the alternative was worse. Small supporting copy — the
+   * one-line hints under each nav item, a step number, an "Opened" marker — was
+   * being dimmed with an ad-hoc `text-muted-foreground/60` at each call site.
+   * Alpha does not blend the way lightness does: at 11px on the rail those hints
+   * measured 3.17:1 in dark and 2.45:1 in light, against a 4.5:1 requirement.
+   * They were the text explaining what every page is for, and they were the
+   * least legible text in the product.
+   *
+   * So the quiet step is a token with a measured floor rather than a guess
+   * repeated eight times. Both values clear 4.5:1 against --background, --card,
+   * --inset and --sidebar in their own theme. Genuine de-emphasis — a skipped
+   * pipeline stage, an inactive tier on a scale — still uses alpha, because
+   * those elements are meant to read as switched off.
+   */
+  --color-muted-foreground-subtle: var(--muted-foreground-subtle);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Elevated surface, one step above --card. Used for the instrument rail,
+   * inset readouts and anything that should read as "inside the machine". */
+  --color-inset: var(--inset);
+
+  /* The four risk tiers. Consumed via lib/risk.ts — never hand-picked. */
+  --color-risk-approve: var(--risk-approve);
+  --color-risk-elevated: var(--risk-elevated);
+  --color-risk-high: var(--risk-high);
+  --color-risk-critical: var(--risk-critical);
+
+  /* Chart ramp: cool slate, deliberately achromatic so that a risk-coloured
+   * series inside a chart is unmistakably the risk series. */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 2.6);
+  --radius-4xl: calc(var(--radius) * 3.2);
 }
 
+/* Light mode — cool paper, not an afterthought. Same instrument, daylight. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.984 0.003 250);
+  --foreground: oklch(0.208 0.021 256);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.208 0.021 256);
+  --inset: oklch(0.962 0.005 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.208 0.021 256);
+  --primary: oklch(0.256 0.026 256);
+  --primary-foreground: oklch(0.985 0.003 250);
+  --secondary: oklch(0.956 0.006 250);
+  --secondary-foreground: oklch(0.256 0.026 256);
+  --muted: oklch(0.956 0.006 250);
+  --muted-foreground: oklch(0.502 0.021 253);
+  /* 5.0:1 on --background, 4.8:1 on the slightly darker --sidebar. */
+  --muted-foreground-subtle: oklch(0.532 0.021 253);
+  --accent: oklch(0.936 0.009 250);
+  --accent-foreground: oklch(0.238 0.024 256);
+  --border: oklch(0.902 0.008 250);
+  --input: oklch(0.888 0.009 250);
+  --ring: oklch(0.556 0.032 253);
+
+  --risk-approve: oklch(0.582 0.132 168);
+  --risk-elevated: oklch(0.638 0.138 78);
+  --risk-high: oklch(0.578 0.184 38);
+  --risk-critical: oklch(0.548 0.226 12);
+  --destructive: oklch(0.548 0.226 12);
+
+  --chart-1: oklch(0.318 0.028 256);
+  --chart-2: oklch(0.452 0.024 253);
+  --chart-3: oklch(0.588 0.02 251);
+  --chart-4: oklch(0.712 0.016 250);
+  --chart-5: oklch(0.836 0.011 250);
+
+  --radius: 0.5rem;
+
+  --sidebar: oklch(0.968 0.005 250);
+  --sidebar-foreground: oklch(0.208 0.021 256);
+  --sidebar-primary: oklch(0.256 0.026 256);
+  --sidebar-primary-foreground: oklch(0.985 0.003 250);
+  --sidebar-accent: oklch(0.928 0.009 250);
+  --sidebar-accent-foreground: oklch(0.238 0.024 256);
+  --sidebar-border: oklch(0.898 0.008 250);
+  --sidebar-ring: oklch(0.556 0.032 253);
 }
 
+/* Dark mode — the default. Blue-slate ink, never neutral black. */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.158 0.013 252);
+  --foreground: oklch(0.966 0.004 250);
+  --card: oklch(0.203 0.015 252);
+  --card-foreground: oklch(0.966 0.004 250);
+  --inset: oklch(0.238 0.016 252);
+  --popover: oklch(0.221 0.016 252);
+  --popover-foreground: oklch(0.966 0.004 250);
+  --primary: oklch(0.928 0.007 250);
+  --primary-foreground: oklch(0.182 0.014 252);
+  --secondary: oklch(0.272 0.016 252);
+  --secondary-foreground: oklch(0.966 0.004 250);
+  --muted: oklch(0.268 0.015 252);
+  --muted-foreground: oklch(0.688 0.022 251);
+  /* Dark's tightest surface is --inset, which sets this: ~4.7:1 there. */
+  --muted-foreground-subtle: oklch(0.628 0.021 251);
+  --accent: oklch(0.308 0.018 252);
+  --accent-foreground: oklch(0.966 0.004 250);
+  --border: oklch(0.82 0.03 252 / 14%);
+  --input: oklch(0.82 0.03 252 / 20%);
+  --ring: oklch(0.638 0.034 252);
+
+  --risk-approve: oklch(0.782 0.148 168);
+  --risk-elevated: oklch(0.812 0.148 85);
+  --risk-high: oklch(0.722 0.178 42);
+  --risk-critical: oklch(0.668 0.226 12);
+  --destructive: oklch(0.668 0.226 12);
+
+  --chart-1: oklch(0.902 0.008 250);
+  --chart-2: oklch(0.752 0.018 251);
+  --chart-3: oklch(0.598 0.024 252);
+  --chart-4: oklch(0.452 0.022 252);
+  --chart-5: oklch(0.332 0.018 252);
+
+  --sidebar: oklch(0.178 0.014 252);
+  --sidebar-foreground: oklch(0.966 0.004 250);
+  --sidebar-primary: oklch(0.928 0.007 250);
+  --sidebar-primary-foreground: oklch(0.182 0.014 252);
+  --sidebar-accent: oklch(0.272 0.016 252);
+  --sidebar-accent-foreground: oklch(0.966 0.004 250);
+  --sidebar-border: oklch(0.82 0.03 252 / 14%);
+  --sidebar-ring: oklch(0.638 0.034 252);
 }
 
 @layer base {
@@ -124,6 +202,9 @@
   body {
     @apply bg-background text-foreground;
     color-scheme: light dark;
+    /* Tabular figures everywhere by default: this is a numbers instrument,
+     * and digits that jitter as they update are a defect, not a style. */
+    font-variant-numeric: tabular-nums;
   }
   html {
     @apply font-sans;
@@ -135,18 +216,142 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+  /* Headings and any large numeral use the display face. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+    letter-spacing: -0.018em;
+  }
+}
+
+@layer components {
+  /*
+   * .stamp — the classification label. Borrowed straight from the vernacular
+   * of a physical case file: small, wide-tracked, upper-case, and used to
+   * name what a region of the screen contains rather than to decorate it.
+   */
+  .stamp {
+    font-family: var(--font-mono), monospace;
+    font-size: 0.625rem;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /*
+   * .grid-field — faint engineering graticule. Used behind the hero and the
+   * instrument rail so those surfaces read as calibrated panels rather than
+   * flat cards. Two-axis 32px lattice at very low contrast.
+   */
+  .grid-field {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center center;
+  }
+
+  /* Thermal ramp used by the risk meter: the full cool-to-hot scale in one
+   * gradient, so a needle placed on it is self-explaining. */
+  .thermal-ramp {
+    background-image: linear-gradient(
+      to right,
+      var(--risk-approve) 0%,
+      var(--risk-elevated) 42%,
+      var(--risk-high) 72%,
+      var(--risk-critical) 100%
+    );
+  }
+
+  /* Hairline vertical rail that threads the Decision Trail stages together. */
+  .rail-line {
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      var(--border) 8%,
+      var(--border) 92%,
+      transparent 100%
+    );
+  }
+}
+
+@utility numeral {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+/* Live-status breathing dot. Slow enough to read as "connected", not "alarm". */
+@keyframes sentinel-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.animate-sentinel-pulse {
+  animation: sentinel-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Trail stage completing: a single short sweep along the rail. One
+ * orchestrated moment beats scattered effects. */
+@keyframes trail-sweep {
+  from {
+    transform: scaleY(0);
+    opacity: 0.4;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.animate-trail-sweep {
+  transform-origin: top;
+  animation: trail-sweep 420ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* A sequence arriving in order, once, on first paint. Used only where the
+ * content genuinely is ordered — the six pipeline stages — so the motion
+ * carries the same meaning as the numbering. Callers set animation-delay
+ * per item. */
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-step-in {
+  animation: step-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /*
  * Accessibility: honour OS-level prefers-reduced-motion.
  * Belt-and-suspenders complement to Framer Motion's useReducedMotion() hook.
  * Guarantees instant transitions even if a component forgets to call the hook.
+ *
+ * `animation-delay` is zeroed too: staggered reveals use `both` fill mode, so a
+ * near-zero duration alone would still leave later items invisible for the
+ * length of their delay.
  */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
@@ -168,5 +373,35 @@
 
   .react-flow__edge-path {
     stroke: CanvasText;
+  }
+
+  .grid-field,
+  .thermal-ramp,
+  .rail-line {
+    background-image: none;
+  }
+}
+
+/* Custom scrollbars — thin, slate, out of the way. */
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: color-mix(in oklch, var(--muted-foreground) 34%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklch, var(--muted-foreground) 60%, transparent);
   }
 }

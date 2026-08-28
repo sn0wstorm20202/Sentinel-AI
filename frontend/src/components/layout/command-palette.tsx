@@ -27,6 +27,7 @@ import {
 import { useCases } from '@/lib/api/hooks/use-cases';
 import { useInvestigationStore } from '@/store/investigation-store';
 import { useLayoutStore } from '@/store/layout-store';
+import { focusWhenReady } from '@/lib/focus';
 
 interface Command {
   id: string;
@@ -35,13 +36,6 @@ interface Command {
   group: string;
   icon: React.ElementType;
   execute: () => void;
-}
-
-function focusSelector(selector: string) {
-  window.setTimeout(() => {
-    const target = document.querySelector<HTMLElement>(selector);
-    target?.focus();
-  }, 60);
 }
 
 // Custom fuzzy search for cmdk
@@ -74,7 +68,6 @@ export function CommandPalette() {
   const setActivePanel = useLayoutStore((state) => state.setActivePanel);
   const focusedCaseId = useInvestigationStore((state) => state.focusedCaseId);
   const recentCases = useInvestigationStore((state) => state.recentCases);
-  const setActiveInvestigationTab = useInvestigationStore((state) => state.setActiveInvestigationTab);
   const setGraphSearch = useInvestigationStore((state) => state.setGraphSearch);
   const { data: cases = [] } = useCases();
 
@@ -95,7 +88,7 @@ export function CommandPalette() {
         icon: FileSearch,
         execute: () => closeAndRun(() => {
           router.push('/cases');
-          focusSelector('[data-sentinel-search="cases"]');
+          focusWhenReady('[data-sentinel-search="cases"]');
         }),
       },
       {
@@ -106,9 +99,8 @@ export function CommandPalette() {
         icon: UserRoundSearch,
         execute: () => closeAndRun(() => {
           if (activeCaseId) router.push(`/cases/${activeCaseId}`);
-          setActiveInvestigationTab('graph');
           setGraphSearch('');
-          focusSelector('[data-sentinel-search="graph"]');
+          focusWhenReady('[data-sentinel-search="graph"]');
         }),
       },
       {
@@ -119,9 +111,8 @@ export function CommandPalette() {
         icon: Search,
         execute: () => closeAndRun(() => {
           if (activeCaseId) router.push(`/cases/${activeCaseId}`);
-          setActiveInvestigationTab('graph');
           setGraphSearch('device');
-          focusSelector('[data-sentinel-search="graph"]');
+          focusWhenReady('[data-sentinel-search="graph"]');
         }),
       },
       {
@@ -132,9 +123,8 @@ export function CommandPalette() {
         icon: UserRoundSearch,
         execute: () => closeAndRun(() => {
           if (activeCaseId) router.push(`/cases/${activeCaseId}`);
-          setActiveInvestigationTab('graph');
           setGraphSearch('customer');
-          focusSelector('[data-sentinel-search="graph"]');
+          focusWhenReady('[data-sentinel-search="graph"]');
         }),
       },
       {
@@ -153,7 +143,9 @@ export function CommandPalette() {
         icon: Network,
         execute: () => closeAndRun(() => {
           if (activeCaseId) router.push(`/cases/${activeCaseId}`);
-          setActiveInvestigationTab('graph');
+          // The graph now sits below the decision trail, so this has to scroll
+          // there. It used to set a store field nothing read, and did nothing.
+          focusWhenReady('[data-sentinel-graph-workspace]');
         }),
       },
       {
@@ -188,7 +180,7 @@ export function CommandPalette() {
         icon: Clock3,
         execute: () => closeAndRun(() => {
           if (activeCaseId) router.push(`/cases/${activeCaseId}`);
-          setActiveInvestigationTab('timeline');
+          focusWhenReady('[data-sentinel-timeline]');
         }),
       },
     ];
@@ -230,7 +222,6 @@ export function CommandPalette() {
     cases,
     recentCases,
     router,
-    setActiveInvestigationTab,
     setActivePanel,
     setGraphSearch,
     closeAndRun,

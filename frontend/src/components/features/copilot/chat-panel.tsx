@@ -105,12 +105,20 @@ async function buildCopilotAnswer(caseId: string, prompt: string, selectedNodeId
   }
 
   if (normalizedPrompt.includes('similar fraud patterns') || normalizedPrompt.includes('confidence')) {
-    const hypotheses = caseData.intelligence.fraud_hypotheses || (caseData.intelligence as any).hypotheses || [];
+    // `hypotheses` is the key the API emits; `fraud_hypotheses` is a legacy alias.
+    const hypotheses =
+      caseData.intelligence.hypotheses ?? caseData.intelligence.fraud_hypotheses ?? [];
     if (hypotheses.length === 0) {
       return 'The backend did not return fraud hypotheses for comparison.';
     }
     return `Backend fraud hypotheses for ${caseId}:\n${hypotheses
-      .map((item) => `${item.name}: ${(item.confidence * 100).toFixed(0)}% confidence, features ${item.supporting_features.join(', ')}`)
+      .map((item) => {
+        const name = item.name ?? item.typology ?? 'Unnamed typology';
+        const confidence =
+          typeof item.confidence === 'number' ? `${(item.confidence * 100).toFixed(0)}%` : 'unknown';
+        const features = item.supporting_features?.join(', ') ?? 'none reported';
+        return `${name}: ${confidence} match strength, features ${features}`;
+      })
       .join('\n')}`;
   }
 

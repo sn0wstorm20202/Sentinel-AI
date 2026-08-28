@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { InvestigationTab, TimelineEvent } from '@/types';
+import type { StageId } from '@/lib/pipeline';
+import { TimelineEvent } from '@/types';
 
 export interface CopilotMessage {
   id: number | string;
@@ -21,8 +22,31 @@ interface InvestigationState {
   setRiskHeatmapEnabled: (enabled: boolean) => void;
   riskPropagationEnabled: boolean;
   setRiskPropagationEnabled: (enabled: boolean) => void;
-  activeInvestigationTab: InvestigationTab;
-  setActiveInvestigationTab: (tab: InvestigationTab) => void;
+  /**
+   * Which stage of the decision trail the dossier is showing.
+   *
+   * This replaces `activeInvestigationTab: 'graph' | 'evidence' | 'timeline'`,
+   * which named the three widgets the trail removed. Nothing read it any more,
+   * so the `G`/`E`/`T` shortcuts and five command-palette entries were still
+   * setting it and silently changing nothing.
+   *
+   * It lives in the store rather than in the dossier's own state because the
+   * global shortcut handler has to be able to move the trail. It is deliberately
+   * *not* persisted: a stage pointer is only meaningful for the case it was set
+   * on, and restoring "you were on stage 05" onto a freshly opened case would
+   * skip the reasoning the trail exists to walk the reader through.
+   */
+  activeTrailStage: StageId;
+  /**
+   * The case `activeTrailStage` was set for.
+   *
+   * A stage pointer is only meaningful for one case, and the dossier ignores it
+   * when the ids differ. That is deliberately structural rather than a "reset on
+   * mount" effect: the `E` shortcut sets the stage *before* navigating, so a
+   * reset effect would race it and always win.
+   */
+  activeTrailStageCaseId: string | null;
+  setActiveTrailStage: (stage: StageId, caseId: string) => void;
   queueCaseIds: string[];
   setQueueCaseIds: (ids: string[]) => void;
   focusedCaseId: string | null;
@@ -82,8 +106,10 @@ export const useInvestigationStore = create<InvestigationState>()(
       setRiskHeatmapEnabled: (enabled) => set({ riskHeatmapEnabled: enabled }),
       riskPropagationEnabled: false,
       setRiskPropagationEnabled: (enabled) => set({ riskPropagationEnabled: enabled }),
-      activeInvestigationTab: 'graph',
-      setActiveInvestigationTab: (tab) => set({ activeInvestigationTab: tab }),
+      activeTrailStage: 'ingest',
+      activeTrailStageCaseId: null,
+      setActiveTrailStage: (stage, caseId) =>
+        set({ activeTrailStage: stage, activeTrailStageCaseId: caseId }),
       queueCaseIds: [],
       setQueueCaseIds: (ids) =>
         set((state) => ({
@@ -177,7 +203,6 @@ export const useInvestigationStore = create<InvestigationState>()(
         collapsedCommunities: state.collapsedCommunities,
         riskHeatmapEnabled: state.riskHeatmapEnabled,
         riskPropagationEnabled: state.riskPropagationEnabled,
-        activeInvestigationTab: state.activeInvestigationTab,
         focusedCaseId: state.focusedCaseId,
         openTabs: state.openTabs,
         recentCases: state.recentCases,

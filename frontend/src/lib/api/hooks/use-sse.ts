@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useInvestigationStore } from '@/store/investigation-store';
 import { useNotificationStore } from '@/store/notification-store';
+import { useConnectionStore } from '@/store/connection-store';
 import { TimelineEventType } from '@/types';
 
 interface StreamEvent {
@@ -20,15 +21,38 @@ interface StreamEvent {
   details?: string;
 }
 
+/**
+ * Retry schedule, in ms, for a dropped stream. The last value repeats.
+ *
+ * `EventSource` only reconnects on its own after a *network-level* drop. When
+ * the response is a fatal error — a 404, a 502 from the proxy, the wrong
+ * content type, a Hugging Face Space that has gone to sleep — the browser marks
+ * the source CLOSED and never tries again. The previous version of this file
+ * called `.close()` in `onerror` and left a comment saying EventSource "usually
+ * auto-reconnects", which guaranteed the opposite: one hiccup and the dashboard
+ * went permanently deaf while still showing a live indicator.
+ */
+const BACKOFF_MS = [1_000, 2_000, 4_000, 8_000, 15_000];
+
+/** Failures after which the stream is reported as offline rather than retrying. */
+const OFFLINE_AFTER = 4;
+
 export function useSSE() {
   const queryClient = useQueryClient();
   const addNotification = useNotificationStore((state) => state.addNotification);
   const addTimelineEvent = useInvestigationStore((state) => state.addTimelineEvent);
 
-  useEffect(() => {
-    const eventSource = new EventSource(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/stream`);
+  /** Kept in a ref so reconnects don't re-run the effect and re-subscribe. */
+  const attemptsRef = useRef(0);
 
-    eventSource.onmessage = (event) => {
+  useEffect(() => {
+    const { setStream, noteEvent } = useConnectionStore.getState();
+    let source: EventSource | null = null;
+    let retryTimer: number | undefined;
+    let disposed = false;
+
+    const handleMessage = (event: MessageEvent<string>) => {
+      noteEvent();
       try {
         const data = JSON.parse(event.data) as StreamEvent;
         const caseId = data.caseId ?? data.case_id;
@@ -128,14 +152,44 @@ export function useSSE() {
       }
     };
 
-    eventSource.onerror = (error) => {
-      console.error('SSE Error:', error);
-      eventSource.close();
-      // Reconnect logic could go here, but EventSource usually auto-reconnects
+    const connect = () => {
+      if (disposed) return;
+      setStream(attemptsRef.current === 0 ? 'connecting' : 'retrying', attemptsRef.current);
+
+      source = new EventSource(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/stream`);
+      source.onmessage = handleMessage;
+
+      source.onopen = () => {
+        attemptsRef.current = 0;
+        setStream('open', 0);
+      };
+
+      source.onerror = () => {
+        // A CONNECTING readyState means the browser is handling the retry
+        // itself; leave it alone and just report the state.
+        if (source && source.readyState === EventSource.CONNECTING) {
+          setStream('retrying', attemptsRef.current);
+          return;
+        }
+
+        // CLOSED is fatal. Reconnect on our own schedule.
+        source?.close();
+        source = null;
+        const attempt = attemptsRef.current;
+        attemptsRef.current = attempt + 1;
+        setStream(attempt + 1 >= OFFLINE_AFTER ? 'offline' : 'retrying', attempt + 1);
+
+        const wait = BACKOFF_MS[Math.min(attempt, BACKOFF_MS.length - 1)];
+        retryTimer = window.setTimeout(connect, wait);
+      };
     };
 
+    connect();
+
     return () => {
-      eventSource.close();
+      disposed = true;
+      if (retryTimer !== undefined) window.clearTimeout(retryTimer);
+      source?.close();
     };
   }, [addNotification, addTimelineEvent, queryClient]);
 }

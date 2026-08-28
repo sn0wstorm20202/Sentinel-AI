@@ -24,7 +24,6 @@ import CustomNode from './custom-node';
 import { useInvestigationStore } from '@/store/investigation-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import {
   Flame,
   LocateFixed,
@@ -355,6 +354,11 @@ function NetworkGraphInner({ data }: NetworkGraphProps) {
               </Button>
             )}
           </div>
+          <p className="text-muted-foreground border-b px-3 pb-2 text-[11px] leading-relaxed">
+            Clusters the graph found, worst first. Each row shows how many
+            entities are in the cluster, then the highest risk score any single
+            one of them carries. Click a row to collapse it.
+          </p>
           <div className="max-h-[36vh] overflow-y-auto p-2">
             {communities.slice(0, 12).map((community) => {
               const collapsed = collapsedCommunities.includes(community.id);
@@ -365,7 +369,12 @@ function NetworkGraphInner({ data }: NetworkGraphProps) {
                   onClick={() => toggleCommunity(community.id)}
                   className={cn(
                     'mb-1 flex w-full items-center justify-between gap-2 rounded-md border px-2 py-1.5 text-left text-xs hover:bg-muted/60',
-                    collapsed && 'opacity-60'
+                    // Collapsed used to be `opacity-60`, which dimmed the label
+                    // and both numbers along with it. A dashed edge says the
+                    // same thing without making the row harder to read — the
+                    // same idiom the Decision Trail uses for a stage that did
+                    // not run.
+                    collapsed && 'border-dashed'
                   )}
                   aria-pressed={collapsed}
                 >
@@ -376,11 +385,28 @@ function NetworkGraphInner({ data }: NetworkGraphProps) {
                     />
                     <span className="truncate font-mono">C{community.id}</span>
                   </span>
-                  <span className="flex items-center gap-2 text-muted-foreground">
-                    <span>{community.count}</span>
-                    <Badge variant={community.maxRisk >= 80 ? 'destructive' : 'outline'} size="sm">
+                  <span className="flex shrink-0 items-center gap-2 font-mono text-[11px]">
+                    <span className="text-muted-foreground">{community.count}</span>
+                    {/*
+                      Was `<Badge variant={maxRisk >= 80 ? 'destructive' : 'outline'}>`.
+
+                      Two things wrong with that. The 80 was a threshold invented
+                      here: the engine's only real boundary lives in
+                      configs/threshold_policy.json, and lib/risk.ts is explicit
+                      that the frontend never derives a tier from a score. A red
+                      pill at 80 asserted a classification no backend ever made.
+
+                      It also measured 4.26:1 — destructive text on a 20%
+                      destructive tint — so the one number it was trying to
+                      emphasise was the hardest one on the panel to read.
+
+                      The list is already sorted by peak risk descending, so
+                      severity is carried by position. The number just has to be
+                      legible and labelled.
+                    */}
+                    <span className="border-border text-foreground rounded border px-1.5 py-px">
                       {community.maxRisk.toFixed(0)}
-                    </Badge>
+                    </span>
                   </span>
                 </button>
               );

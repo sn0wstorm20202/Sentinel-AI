@@ -65,8 +65,11 @@ export function Topbar() {
             }
           >
             <Bell className="h-4 w-4" />
+            {/* The count is deliberately achromatic. Red in this interface means
+                Critical risk; an unread-message badge wearing the same red would
+                read as a fraud signal. */}
             {unreadCount > 0 && (
-              <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[9px] font-semibold leading-none text-white">
+              <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[9px] font-semibold leading-none text-background">
                 {unreadCount > 9 ? '9+' : unreadCount}
               </span>
             )}

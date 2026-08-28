@@ -41,18 +41,15 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <ResizablePanelGroup orientation="horizontal">
           <ResizablePanel defaultSize={100} minSize={30}>
               {/*
-               * AnimatePresence with key=pathname drives the page-to-page
-               * transition. mode="wait" ensures the exit animation completes
-               * before the next page enters — prevents content overlap.
+               * Previously wrapped in `AnimatePresence mode="wait"` around a
+               * plain <div>. AnimatePresence only animates motion components, so
+               * that produced no transition at all — it was a comment describing
+               * an animation that did not exist. The scroll container is the real
+               * job here, and the App Router already handles route changes.
                */}
-              <AnimatePresence mode="wait" initial={false}>
-                <div
-                  key={pathname}
-                  className="h-full overflow-auto bg-background"
-                >
-                  {children}
-                </div>
-              </AnimatePresence>
+              <div key={pathname} className="h-full overflow-auto bg-background">
+                {children}
+              </div>
             </ResizablePanel>
 
             {/* Copilot panel — spring slide from right */}

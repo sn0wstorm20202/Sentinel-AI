@@ -62,3 +62,7 @@ Thumbs.db
 
 # Local scratch request payloads
 /payload.json
+/.scratch/
+
+# Local editor/agent tooling — dev-server launch config, not project source
+/.claude/
