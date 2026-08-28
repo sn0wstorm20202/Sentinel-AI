@@ -16,6 +16,7 @@ import { CommandPalette } from "@/components/layout/command-palette";
 import { EnterpriseKeyboardShortcuts } from "@/components/layout/enterprise-keyboard-shortcuts";
 import { ShortcutReference } from "@/components/layout/shortcut-reference";
 import { NotificationCenter } from "@/components/layout/notification-center";
+import { GuidedTour } from "@/components/layout/guided-tour";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const sidebarCollapsed = useLayoutStore((state) => state.sidebarCollapsed);
@@ -85,6 +86,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <CommandPalette />
       <ShortcutReference />
       <NotificationCenter />
+      <GuidedTour />
     </div>
   );
 }

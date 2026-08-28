@@ -279,7 +279,7 @@ export default function AnalyzerPage() {
         </p>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-12">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-12" data-tour="analyzer">
         {/* ================= STEPS 01 + 02 ============================== */}
         <div className="lg:sticky lg:top-6 lg:self-start">
           {/* ---- 01 ---------------------------------------------------- */}
@@ -361,7 +361,12 @@ export default function AnalyzerPage() {
             </p>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
-              <Button onClick={submit} disabled={!payload || explain.isPending} size="lg">
+              <Button
+                onClick={submit}
+                disabled={!payload || explain.isPending}
+                size="lg"
+                data-tour="analyzer-submit"
+              >
                 {explain.isPending ? (
                   <>
                     <Loader2 className="size-4 animate-spin" aria-hidden />
@@ -445,7 +450,7 @@ export default function AnalyzerPage() {
           {explain.isPending && <PendingStage elapsed={elapsed} />}
 
           {result && meta && (
-            <div className="space-y-6">
+            <div className="space-y-6" data-tour="analyzer-result">
               {/* ---- The verdict ------------------------------------- */}
               {/*
                 Container query, not a viewport query. This card sits in the

@@ -25,13 +25,14 @@
  * because it did not. `HypothesisEngine` never reads the graph.
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   AlertCircle,
   Bookmark,
   ChevronRight,
+  Maximize2,
   Network,
   Pin,
   ScrollText,
@@ -44,6 +45,13 @@ import { deriveStages, type StageId } from '@/lib/pipeline';
 import { riskMeta, formatScore } from '@/lib/risk';
 
 import { Button, buttonVariants } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { RiskBadge, Stamp } from '@/components/ui/risk';
@@ -183,7 +191,10 @@ export default function CaseDossierPage() {
       </header>
 
       {/* ---- The verdict, before any explanation ------------------------- */}
-      <section className="grid gap-6 py-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-12">
+      <section
+        className="grid gap-6 py-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-12"
+        data-tour="case-verdict"
+      >
         <div className="space-y-3">
           <Stamp>The engine&apos;s decision</Stamp>
           <p className="font-display text-foreground max-w-[26ch] text-3xl leading-[1.1] font-semibold tracking-tight sm:text-4xl">
@@ -265,44 +276,14 @@ export default function CaseDossierPage() {
         </div>
 
         <div className="grid gap-4 xl:grid-cols-2">
-          {/* Entity graph */}
-          <div className="border-border bg-card overflow-hidden rounded-xl border">
-            <header className="border-border flex items-center justify-between gap-2 border-b px-4 py-2.5">
-              <div className="flex items-center gap-2">
-                <Network className="text-muted-foreground size-3.5" aria-hidden />
-                <h3 className="stamp text-foreground">Entity graph</h3>
-              </div>
-              <span className="text-muted-foreground font-mono text-[11px]">
-                {graphData ? `${graphData.nodes.length} nodes · ${graphData.edges.length} edges` : '—'}
-              </span>
-            </header>
-            <div className="h-[380px]">
-              {graphLoading ? (
-                <div className="grid h-full place-items-center">
-                  <Skeleton className="h-full w-full rounded-none" />
-                </div>
-              ) : graphError || !graphData ? (
-                <div className="grid h-full place-items-center px-6 text-center">
-                  <div className="space-y-1.5">
-                    <p className="text-foreground text-sm font-medium">
-                      No graph is available for this case
-                    </p>
-                    <p className="text-muted-foreground mx-auto max-w-[46ch] text-sm leading-relaxed">
-                      The graph endpoint returned nothing. The score and its reasoning above are
-                      unaffected — they never depended on it.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <ErrorBoundary name="Entity graph">
-                  <NetworkGraph data={graphData} />
-                </ErrorBoundary>
-              )}
-            </div>
-          </div>
+          <EntityGraphCard
+            graphData={graphData}
+            graphLoading={graphLoading}
+            graphError={Boolean(graphError)}
+          />
 
           {/* Activity */}
-          <div className="border-border bg-card overflow-hidden rounded-xl border">
+          <div className="border-border bg-card overflow-hidden rounded-xl border" data-tour="activity">
             <header className="border-border flex items-center justify-between gap-2 border-b px-4 py-2.5">
               <div className="flex items-center gap-2">
                 <ScrollText className="text-muted-foreground size-3.5" aria-hidden />
@@ -320,6 +301,93 @@ export default function CaseDossierPage() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function EntityGraphCard({
+  graphData,
+  graphLoading,
+  graphError,
+}: {
+  graphData: ReturnType<typeof useCaseGraph>['data'];
+  graphLoading: boolean;
+  graphError: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const nodeEdgeLabel = graphData
+    ? `${graphData.nodes.length} nodes · ${graphData.edges.length} edges`
+    : '—';
+
+  return (
+    <div className="border-border bg-card overflow-hidden rounded-xl border" data-tour="graph-card">
+      <header className="border-border flex items-center justify-between gap-2 border-b px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <Network className="text-muted-foreground size-3.5" aria-hidden />
+          <h3 className="stamp text-foreground">Entity graph</h3>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-muted-foreground font-mono text-[11px]">{nodeEdgeLabel}</span>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => setExpanded(true)}
+            disabled={!graphData}
+            aria-label="Expand entity graph"
+            data-tour="graph-expand"
+          >
+            <Maximize2 className="size-4" aria-hidden />
+          </Button>
+        </div>
+      </header>
+      <div className="h-[380px]">
+        {graphLoading ? (
+          <div className="grid h-full place-items-center">
+            <Skeleton className="h-full w-full rounded-none" />
+          </div>
+        ) : graphError || !graphData ? (
+          <div className="grid h-full place-items-center px-6 text-center">
+            <div className="space-y-1.5">
+              <p className="text-foreground text-sm font-medium">
+                No graph is available for this case
+              </p>
+              <p className="text-muted-foreground mx-auto max-w-[46ch] text-sm leading-relaxed">
+                The graph endpoint returned nothing. The score and its reasoning above are
+                unaffected — they never depended on it.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <ErrorBoundary name="Entity graph">
+            <NetworkGraph data={graphData} />
+          </ErrorBoundary>
+        )}
+      </div>
+
+      <Dialog open={expanded} onOpenChange={setExpanded}>
+        <DialogContent
+          className="grid h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-none grid-rows-[auto_minmax(0,1fr)] gap-0 overflow-hidden rounded-xl p-0 sm:max-w-none"
+          showCloseButton
+        >
+          <DialogHeader className="border-border gap-1 border-b px-4 py-3 pr-12">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <DialogTitle className="stamp text-foreground">Entity graph workspace</DialogTitle>
+              <span className="text-muted-foreground font-mono text-[11px]">{nodeEdgeLabel}</span>
+            </div>
+            <DialogDescription className="max-w-[76ch] text-xs">
+              Search entities, collapse communities, inspect a node, and use fit/zoom without the
+              graph panels escaping the window.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="min-h-0 overflow-hidden bg-background">
+            {graphData && (
+              <ErrorBoundary name="Expanded entity graph">
+                <NetworkGraph data={graphData} />
+              </ErrorBoundary>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

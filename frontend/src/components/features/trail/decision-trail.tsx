@@ -76,14 +76,12 @@ function StateIcon({ state }: { state: StageState }) {
 
 function StageNode({
   run,
-  index,
   selected,
   accent,
   onSelect,
   buttonRef,
 }: {
   run: StageRun;
-  index: number;
   selected: boolean;
   /** CSS colour for the live/current stage. Risk-tier coloured, or undefined. */
   accent?: string;
@@ -276,6 +274,7 @@ export function DecisionTrail({
     <section
       className={cn('border-border bg-card overflow-hidden rounded-xl border', className)}
       aria-label="Decision trail"
+      data-tour="decision-trail"
     >
       {/* ---- Header ------------------------------------------------------- */}
       <header className="border-border flex flex-wrap items-center justify-between gap-3 border-b px-4 py-2.5">
@@ -333,7 +332,6 @@ export function DecisionTrail({
             {i > 0 && <Connector from={runs[i - 1].state} to={r.state} />}
             <StageNode
               run={r}
-              index={i}
               selected={r.id === selected}
               accent={accent}
               onSelect={() => setSelected(r.id)}

@@ -76,6 +76,7 @@ export default function MlOpsDashboard() {
     <ErrorBoundary name="MLOps Dashboard">
       <motion.div
         className="flex-1 space-y-6 p-8 overflow-y-auto"
+        data-tour="mlops"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"

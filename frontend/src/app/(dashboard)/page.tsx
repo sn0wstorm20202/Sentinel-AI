@@ -63,7 +63,10 @@ export default function CommandCenterPage() {
   return (
     <div className="mx-auto w-full max-w-[1400px] px-4 pb-20 sm:px-6">
       {/* ================= THE CLAIM ==================================== */}
-      <section className="grid gap-10 pt-12 pb-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16 lg:pt-16">
+      <section
+        className="grid gap-10 pt-12 pb-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16 lg:pt-16"
+        data-tour="overview"
+      >
         <div>
           <Stamp className="text-muted-foreground">Fraud intelligence · Sentinel AI</Stamp>
           <h1 className="font-display text-foreground mt-4 max-w-[22ch] text-4xl leading-[1.04] font-semibold tracking-tight sm:text-5xl lg:text-6xl">

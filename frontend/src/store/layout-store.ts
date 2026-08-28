@@ -13,6 +13,10 @@ interface LayoutState {
   setShortcutReferenceOpen: (open: boolean) => void;
   notificationCenterOpen: boolean;
   setNotificationCenterOpen: (open: boolean) => void;
+  guidedTourOpen: boolean;
+  setGuidedTourOpen: (open: boolean) => void;
+  guidedTourCompleted: boolean;
+  setGuidedTourCompleted: (completed: boolean) => void;
 }
 
 export const useLayoutStore = create<LayoutState>()(
@@ -29,6 +33,10 @@ export const useLayoutStore = create<LayoutState>()(
       setShortcutReferenceOpen: (open) => set({ shortcutReferenceOpen: open }),
       notificationCenterOpen: false,
       setNotificationCenterOpen: (open) => set({ notificationCenterOpen: open }),
+      guidedTourOpen: false,
+      setGuidedTourOpen: (open) => set({ guidedTourOpen: open }),
+      guidedTourCompleted: false,
+      setGuidedTourCompleted: (completed) => set({ guidedTourCompleted: completed }),
     }),
     {
       name: 'sentinel-layout',
@@ -36,6 +44,7 @@ export const useLayoutStore = create<LayoutState>()(
       partialize: (state) => ({
         sidebarCollapsed: state.sidebarCollapsed,
         activePanel: state.activePanel,
+        guidedTourCompleted: state.guidedTourCompleted,
       }),
     }
   )

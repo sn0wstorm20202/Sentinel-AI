@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Bell, Bot, HelpCircle } from "lucide-react";
+import { Search, Bell, Bot, Compass, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLayoutStore } from "@/store/layout-store";
 import { ThemeToggle } from "./theme-toggle";
@@ -11,6 +11,7 @@ export function Topbar() {
   const setCommandPaletteOpen = useLayoutStore((state) => state.setCommandPaletteOpen);
   const setShortcutReferenceOpen = useLayoutStore((state) => state.setShortcutReferenceOpen);
   const setNotificationCenterOpen = useLayoutStore((state) => state.setNotificationCenterOpen);
+  const setGuidedTourOpen = useLayoutStore((state) => state.setGuidedTourOpen);
   const unreadCount = useNotificationStore((state) => state.notifications.filter((item) => !item.read).length);
 
   const toggleCopilot = () => {
@@ -26,6 +27,7 @@ export function Topbar() {
           className="h-9 w-full max-w-sm justify-start text-muted-foreground"
           onClick={() => setCommandPaletteOpen(true)}
           data-sentinel-search="primary"
+          data-tour="global-search"
           aria-label="Open command palette"
         >
           <Search className="mr-2 h-4 w-4" />
@@ -36,6 +38,22 @@ export function Topbar() {
 
       <div className="flex items-center gap-2">
         <ThemeToggle />
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative"
+                onClick={() => setGuidedTourOpen(true)}
+                aria-label="Start guided tour"
+              />
+            }
+          >
+            <Compass className="h-4 w-4" />
+          </TooltipTrigger>
+          <TooltipContent>Guided tour</TooltipContent>
+        </Tooltip>
         <Tooltip>
           <TooltipTrigger
             render={
@@ -82,6 +100,7 @@ export function Topbar() {
           className="gap-2"
           onClick={toggleCopilot}
           aria-label="Toggle AI Copilot"
+          data-tour="copilot"
         >
           <Bot className="h-4 w-4 text-primary" />
           <span>AI Copilot</span>

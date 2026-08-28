@@ -94,6 +94,7 @@ export function Sidebar({ collapsed }: { collapsed: boolean }) {
 
   return (
     <aside
+      data-tour="navigation"
       className={cn(
         'bg-sidebar border-border flex shrink-0 flex-col border-r',
         hydrated && 'transition-[width] duration-200 ease-out',

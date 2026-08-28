@@ -147,7 +147,7 @@ export default function QueuePage() {
       </header>
 
       {/* ---- The shape of the workload ---------------------------------- */}
-      <section aria-label="Cases by tier" className="border-border border-y py-4">
+      <section aria-label="Cases by tier" className="border-border border-y py-4" data-tour="queue">
         {isLoading ? (
           <Skeleton className="h-16 w-full" />
         ) : (
@@ -259,7 +259,7 @@ export default function QueuePage() {
           </p>
         </div>
       ) : (
-        <div className="border-border overflow-hidden rounded-xl border">
+        <div className="border-border overflow-hidden rounded-xl border" data-tour="queue-table">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">
               Scored transactions, sortable by tier, case, score, time and status
